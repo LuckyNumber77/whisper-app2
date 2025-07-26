@@ -1,0 +1,7 @@
+{
+  "name": "whisper-app2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
