@@ -12,3 +12,6 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });
+
+console.log('Connecting to Firebase emulators...');
+

@@ -1,37 +1,110 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+/* ============================================================================
+   Whisper – Global Stylesheet
+   ========================================================================= */
 
-/* Core CSS required for Ionic components to work properly */
+/* ── Ionic Core + Utilities (do not modify) ─────────────────────────────── */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* ── Optional Ionic Utility Packs ───────────────────────────────────────── */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* ── Leaflet styles ─────────────────────────────────────────────────────── */
+@import "leaflet/dist/leaflet.css";
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* ── App Variables ──────────────────────────────────────────────────────── */
+@import "theme/variables";
+
+
+/* ── Root Tokens and Global Reset ───────────────────────────────────────── */
+:root {
+  font-family: var(--font-primary);
+  background-color: var(--bg-light);
+  color: var(--text-color);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ── Ionic Overrides ────────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-primary);
+  background: var(--bg-light);
+  color: var(--text-color);
+  margin: 0;
+}
+
+ion-content {
+  --background: var(--bg-light);
+}
+
+ion-toolbar {
+  --background: #FEFDFE;
+  --color: var(--text-color);
+  font-family: var(--font-secondary);
+  font-weight: 600;
+}
+
+/* ── Typography Classes ─────────────────────────────────────────────────── */
+.display-1 {
+  font-size: 48px;
+  font-weight: 200;
+  line-height: 1.3;
+  font-family: var(--font-primary);
+}
+
+.display-2 {
+  font-size: 40px;
+  font-weight: 200;
+  line-height: 1.3;
+  font-family: var(--font-primary);
+}
+
+.heading-1 { font-size: 44px; font-weight: 700; line-height: 1.3; }
+.heading-2 { font-size: 36px; font-weight: 700; line-height: 1.3; }
+.heading-3 { font-size: 28px; font-weight: 700; line-height: 1.3; }
+.heading-4 { font-size: 24px; font-weight: 700; line-height: 1.3; }
+.heading-5 { font-size: 20px; font-weight: 700; line-height: 1.3; }
+.heading-6 { font-size: 16px; font-weight: 700; line-height: 1.3; }
+
+.lead-paragraph {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: var(--font-secondary);
+}
+
+.body-large   { font-size: 20px; font-weight: 400; line-height: 1.7; }
+.body-medium  { font-size: 18px; font-weight: 400; line-height: 1.7; }
+.body-normal  { font-size: 16px; font-weight: 400; line-height: 1.7; }
+.body-small   { font-size: 14px; font-weight: 400; line-height: 1.7; }
+
+/* ── Label Text ─────────────────────────────────────────────────────────── */
+.label-xs { font-size: 10px; }
+.label-sm { font-size: 12px; }
+.label-md { font-size: 14px; }
+.label-lg { font-size: 16px; }
+.label-xl { font-size: 18px; }
+
+/* ── Components Base ────────────────────────────────────────────────────── */
+ion-button {
+  border-radius: $radius-xl;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+ion-input,
+ion-textarea {
+  border-radius: $radius-xl;
+  background: #fff;
+  padding: $padding-sm $padding-base;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+}

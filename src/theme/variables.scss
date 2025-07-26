@@ -1,2 +1,77 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+/* ============================================================================
+   Whisper – SCSS Variables (Based on UI Style Guide)
+============================================================================ */
+
+/* Fonts */
+$font-primary: 'Satoshi', sans-serif;
+$font-secondary: 'Manrope', sans-serif;
+
+/* Font Weights */
+$weight-extra-light: 200;
+$weight-regular: 400;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+/* Typography */
+$display1: 48px;
+$display2: 40px;
+$heading1: 44px;
+$heading2: 36px;
+$heading3: 28px;
+$heading4: 24px;
+$heading5: 20px;
+$heading6: 16px;
+$lead-paragraph: 22px;
+$body-large: 20px;
+$body-medium: 18px;
+$body-normal: 16px;
+$body-small: 14px;
+
+/* Line Heights */
+$lh-1-3: 1.3;
+$lh-1-5: 1.5;
+$lh-1-7: 1.7;
+
+/* Color Palette */
+$color-primary: #4C3A63;
+$color-primary-dark: #332742;
+$color-primary-light: #887C97;
+$color-primary-subtle: #DBD8E0;
+
+$color-secondary: #F28B83;
+$color-secondary-dark: #A17977;
+$color-secondary-light: #F6CECC;
+$color-secondary-subtle: #F9DFDF;
+
+$color-error: #D32F2F;
+$color-warning: #FBC02D;
+$color-info: #1976D2;
+$color-success: #4CAF50;
+
+$color-dark-1: #3A3A3C;
+$color-dark-2: #687588;
+$color-dark-3: #8F90A6;
+$color-dark-4: #C7C9D9;
+
+$color-light-1: #DDE5E9;
+$color-light-2: #EBEBF0;
+$color-light-3: #F2F2F5;
+$color-light-4: #FAFAFC;
+
+$bg-light: #FEFDFE;
+$text-color: #2A2A2A;
+
+/* Radius and Spacing */
+$radius-lg: 12px;
+$radius-xl: 24px;
+$padding-sm: 8px;
+$padding-base: 16px;
+$padding-lg: 32px;
+
+:root {
+  --font-primary: #{$font-primary};
+  --font-secondary: #{$font-secondary};
+  --ion-color-primary: #{$color-primary};
+  --ion-color-secondary: #{$color-secondary};
+  --bg-light: #{$bg-light};
+}

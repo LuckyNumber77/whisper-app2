@@ -1,0 +1,25 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom" color="light">
+
+    <ion-tab-button tab="map" [routerLink]="['/home/map']">
+      <ion-icon name="map-outline"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="contacts" [routerLink]="['/home/contacts']">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Contacts</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="alerts" [routerLink]="['/home/alerts']">
+      <ion-icon name="notifications-outline"></ion-icon>
+      <ion-label>Alerts</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="sos" [routerLink]="['/home/sos']">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <ion-label>SOS</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>
