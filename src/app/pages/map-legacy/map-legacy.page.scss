@@ -1,87 +1,128 @@
+/* ───────────────────────────── 1. Host & Content Setup ────────────────── */
+:host,
+ion-content,
 .page-layout {
+  height: 100% !important;
+  min-height: 100vh !important;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+ion-content.page-layout {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  --background: var(--ion-background-color);
+}
+
+/* ───────────────────────────── 2. Filter Bar Section ──────────────────── */
 .filter-bar {
-  padding: 12px;
+  flex: 0 0 calc(15vh - var(--ion-safe-area-top));
+  max-height: 15vh;
+  overflow-y: auto;
+  padding: 4px;
   background-color: #f8f8f8;
   border-bottom: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
 }
 
+/* small adjustment to “use my location” button spacing */
 .use-location {
-  margin-top: 4px;
-  margin-bottom: 8px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
+/* ───────────────────────────── 3. Map Section ─────────────────────────── */
 .map-wrapper {
+  flex: 1 1 auto;
+  min-height: 320px;      /* Minimum for mobile */
+  max-height: 65vh;       /* Responsive for desktop */
+  height: 100% !important;
   position: relative;
-  flex: 1;
-  min-height: 250px;
+  overflow: hidden;
+  width: 100%;
+  background: none;
 }
 
 #map {
-  height: 100%;
   width: 100%;
+  height: 100% !important;
+  min-height: 320px;      /* Safety net */
+  max-height: 65vh;       /* Desktop safety */
+  background: #f8f8f8;
   z-index: 1;
+  border: 1px solid #ececec;
 }
 
+/* ── Legend overlay (Leaflet, within map section) ── */
 .leaflet-control.legend {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
+  bottom: 4px;
+  left: 4px;
   background: white;
-  padding: 8px;
-  border-radius: 4px;
+  padding: 4px;
+  border-radius: var(--ion-border-radius);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   z-index: 999;
-  font-size: 12px;
+  font-size: 11px;
 }
 
-.legend-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
+/* ───────────────────────────── 4. Incident List Section ──────────────── */
 .incident-wrapper {
-  padding: 8px 12px;
+  flex: 0 0 calc(15vh - var(--ion-safe-area-bottom));
+  max-height: 15vh;
+  overflow-y: auto;
+  padding: 2px 4px;
   background-color: #fff;
   border-top: 1px solid #ddd;
 }
 
+/* ── Incident card (reduced padding for tighter layout) ── */
 .incident-card {
   --background: #f9f9f9;
-  margin-bottom: 8px;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 2px !important;
 }
 
 .threat-header {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
 }
 
 .card-marker {
-  width: 16px;
+  width: 12px;
   height: auto;
 }
 
 .incident-details {
-  font-size: 13px;
+  font-size: 11px;
   color: #666;
-  margin-top: 4px;
+  margin-top: 1px;
 }
 
-.loading, .no-data {
+/* ── Loading & no-data states (within list section) ── */
+.loading,
+.no-data {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 5px;
   color: #888;
+  font-size: 11px;
 }
