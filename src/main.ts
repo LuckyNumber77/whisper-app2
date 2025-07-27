@@ -1,3 +1,13 @@
+import { addIcons } from 'ionicons';
+import { businessOutline, mapOutline, calendarOutline, funnelOutline } from 'ionicons/icons';
+
+addIcons({
+  'business-outline': businessOutline,
+  'map-outline': mapOutline,
+  'calendar-outline': calendarOutline,
+  'funnel-outline': funnelOutline,
+});
+
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   RouteReuseStrategy,
@@ -6,7 +16,7 @@ import {
   PreloadAllModules,
 } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
-import { provideHttpClient } from '@angular/common/http';   // ★ added
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
@@ -16,7 +26,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideHttpClient(),                                   // ★ added
+    provideHttpClient(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 }).catch(err => console.error('Bootstrap error:', err));

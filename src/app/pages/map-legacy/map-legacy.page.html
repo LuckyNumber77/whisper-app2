@@ -14,53 +14,55 @@
 <ion-content class="page-layout">
 
   <!-- ───── 2.1 Filter Bar Section ───── -->
-  <div class="filter-bar">
-    <ion-item>
-      <ion-label>City</ion-label>
-      <ion-select [(ngModel)]="selectedCity" (ionChange)="onCityChange($event.detail.value)">
-        <ion-select-option value="toronto">Toronto</ion-select-option>
-        <ion-select-option value="chicago">Chicago</ion-select-option>
-        <ion-select-option value="atlanta">Atlanta</ion-select-option>
-        <ion-select-option value="texas">Texas</ion-select-option>
-      </ion-select>
-    </ion-item>
+<div class="filter-bar">
+  <ion-item>
+    <ion-icon slot="start" name="business-outline" class="filter-icon"></ion-icon>
+    <ion-select [(ngModel)]="selectedCity" (ionChange)="onCityChange($event.detail.value)">
+      <ion-select-option value="toronto">Toronto</ion-select-option>
+      <ion-select-option value="chicago">Chicago</ion-select-option>
+      <ion-select-option value="atlanta">Atlanta</ion-select-option>
+      <ion-select-option value="texas">Texas</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-item>
-      <ion-label>Neighbourhood</ion-label>
-      <ion-select
-        [(ngModel)]="selectedNeighbourhood"
-        (ionChange)="onNeighbourhoodChange($event.detail.value)"
-        interface="alert"
-      >
-        <ion-select-option *ngFor="let opt of neighbourhoodOptions" [value]="opt.value">
-          {{ opt.label }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+  <ion-item>
+    <ion-icon slot="start" name="map-outline" class="filter-icon"></ion-icon>
+    <ion-select
+      [(ngModel)]="selectedNeighbourhood"
+      (ionChange)="onNeighbourhoodChange($event.detail.value)"
+      interface="alert"
+    >
+      <ion-select-option *ngFor="let opt of neighbourhoodOptions" [value]="opt.value">
+        {{ opt.label }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-button expand="block" class="use-location" (click)="useDeviceLocation()">
-      Use My Location
-    </ion-button>
+  <ion-button expand="block" class="use-location" (click)="useDeviceLocation()">
+    Use My Location
+  </ion-button>
 
-    <ion-item>
-      <ion-label>Year</ion-label>
-      <ion-select [(ngModel)]="selectedYear" (ionChange)="onYearChange($event.detail.value)">
-        <ion-select-option *ngFor="let y of availableYears" [value]="y">
-          {{ y }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+  <ion-item>
+    <ion-icon slot="start" name="calendar-outline" class="filter-icon"></ion-icon>
+    <ion-select [(ngModel)]="selectedYear" (ionChange)="onYearChange($event.detail.value)">
+      <ion-select-option *ngFor="let y of availableYears" [value]="y">
+        {{ y }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-item>
-      <ion-label>Filter</ion-label>
-      <ion-select [(ngModel)]="selectedFilter" (ionChange)="onFilterChange($event.detail.value)">
-        <ion-select-option *ngFor="let opt of filterOptions" [value]="opt">
-          {{ opt }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-  </div>
+  <ion-item>
+    <ion-icon slot="start" name="funnel-outline" class="filter-icon"></ion-icon>
+    <ion-select [(ngModel)]="selectedFilter" (ionChange)="onFilterChange($event.detail.value)">
+      <ion-select-option *ngFor="let opt of filterOptions" [value]="opt">
+        {{ opt }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+</div>
+
   <!-- /filter-bar -->
+
 
   <!-- ───── 2.2 Map Section ───── -->
   <div class="map-wrapper">
@@ -91,18 +93,22 @@
     <ion-list *ngIf="!loading && filteredIncidents.length">
       <ion-item *ngFor="let inc of filteredIncidents" class="incident-card">
         <ion-label>
-          <h2 class="threat-header">
-            <img [src]="iconUrl(inc.display_category)" class="card-marker" alt="" />
-            {{ inc.display_category }}
-          </h2>
-          <p class="incident-details">
-            <small *ngIf="inc.category !== inc.display_category">({{ inc.category }})</small>
-            <br />
-            {{ inc.formattedDate || 'N/A' }}
-          </p>
+          <div class="incident-info">
+            <h2 class="threat-header">
+              <img [src]="iconUrl(inc.display_category)" class="card-marker" alt="" />
+              {{ inc.display_category }}
+            </h2>
+            <p class="incident-details">
+              <small *ngIf="inc.category !== inc.display_category">({{ inc.category }})</small>
+              <br />
+              {{ inc.formattedDate || 'N/A' }}
+            </p>
+          </div>
         </ion-label>
       </ion-item>
     </ion-list>
+
+
 
     <ion-text *ngIf="loading" class="loading">
       <p>Loading incidents…</p>

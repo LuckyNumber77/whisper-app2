@@ -38,6 +38,13 @@ ion-toolbar {
   font-weight: 600;
 }
 
+/* Ensure Ionic root and content fill full height for flex layouts */
+ion-app,
+ion-page,
+ion-content {
+  height: 100%;
+}
+
 /* ── Typography Classes ─────────────────────────────────────────────────── */
 .display-1 {
   font-size: 48px;
