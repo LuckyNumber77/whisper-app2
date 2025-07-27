@@ -12,6 +12,12 @@ export const routes: Routes = [
   },
   {
     path: 'tabs',
-    loadComponent: () => import('./pages/home/tabs/tabs.page').then( m => m.TabsPage)
+    loadComponent: () =>
+      import('./pages/home/tabs/tabs.page').then((m) => m.TabsPage),
+  },
+  {
+    path: 'map-legacy',
+    loadComponent: () =>
+      import('./pages/map-legacy/map-legacy.page').then((m) => m.MapLegacyPage),
   },
 ];

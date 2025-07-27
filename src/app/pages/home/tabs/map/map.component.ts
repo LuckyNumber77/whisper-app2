@@ -1,40 +1,62 @@
 // src/app/pages/home/tabs/map/map.component.ts
-import {
-  Component,
-  AfterViewInit,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
-import * as L from 'leaflet';
-import { Geolocation } from '@capacitor/geolocation';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicModule, ModalController } from '@ionic/angular';
+
+import { ShareLocationModalComponent } from '@components/modals/share-location-modal.component';  // Alias fix
+import { StandbyModalComponent } from '@components/modals/standby-modal.component';  // Alias fix
+import { SafetyCheckModalComponent } from '@components/modals/safety-check-modal.component';  // Alias fix
 
 @Component({
   selector: 'app-map',
+  standalone: true,
+  imports: [CommonModule, IonicModule],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  standalone: true,
-  imports: [],
 })
-export class MapComponent implements AfterViewInit {
-  @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
-  map!: L.Map;
+export class MapComponent {
+  isHalfOpen = true;
+  isFullOpen = false;
 
-  async ngAfterViewInit() {
-    const coords = await Geolocation.getCurrentPosition();
-    const { latitude, longitude } = coords.coords;
+  contacts = [
+    { name: 'Alice', avatarUrl: 'assets/avatars/alice.jpg' },
+    { name: 'Bob', avatarUrl: 'assets/avatars/bob.jpg' },
+    { name: 'Charlie', avatarUrl: 'assets/avatars/charlie.jpg' },
+    // Add more mock data or hook into Firestore later
+  ];
 
-    this.map = L.map(this.mapContainer.nativeElement).setView(
-      [latitude, longitude],
-      15
-    );
+  constructor(private modalCtrl: ModalController) {}
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(this.map);
+  toggleHalfSheet() {
+    if (this.isHalfOpen) {
+      this.isFullOpen = true;
+      this.isHalfOpen = false;
+    } else if (this.isFullOpen) {
+      this.isHalfOpen = false;
+      this.isFullOpen = false;
+    } else {
+      this.isHalfOpen = true;
+    }
+  }
 
-    L.marker([latitude, longitude])
-      .addTo(this.map)
-      .bindPopup('You are here')
-      .openPopup();
+  async openShareShareLocation() {
+    const modal = await this.modalCtrl.create({
+      component: ShareLocationModalComponent,
+    });
+    await modal.present();
+  }
+
+  async openStandBy() {
+    const modal = await this.modalCtrl.create({
+      component: StandbyModalComponent,
+    });
+    await modal.present();
+  }
+
+  async openSafetyCheck() {
+    const modal = await this.modalCtrl.create({
+      component: SafetyCheckModalComponent,
+    });
+    await modal.present();
   }
 }

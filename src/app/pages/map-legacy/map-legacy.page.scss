@@ -1,0 +1,87 @@
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.filter-bar {
+  padding: 12px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.use-location {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.map-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 250px;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.leaflet-control.legend {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  font-size: 12px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.incident-wrapper {
+  padding: 8px 12px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.incident-card {
+  --background: #f9f9f9;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.threat-header {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-marker {
+  width: 16px;
+  height: auto;
+}
+
+.incident-details {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.loading, .no-data {
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
+}

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { TabsPage } from './tabs/tabs.page';
+import { TabsPage } from '@pages/home/tabs/tabs.page';  // Use @pages alias for consistency
 
 export const routes: Routes = [
   {
@@ -14,22 +14,22 @@ export const routes: Routes = [
       {
         path: 'map',
         loadComponent: () =>
-          import('./tabs/map.page').then((m) => m.MapPage),
+          import('@pages/home/tabs/map/map.component').then((m) => m.MapComponent),  // Alias for lazy load
       },
       {
         path: 'contacts',
         loadComponent: () =>
-          import('./tabs/contacts.page').then((m) => m.ContactsPage),
+          import('@pages/home/tabs/contacts/contacts.component').then((m) => m.ContactsComponent),  // Alias for lazy load
       },
       {
         path: 'alerts',
         loadComponent: () =>
-          import('./tabs/alerts.page').then((m) => m.AlertsPage),
+          import('@pages/home/tabs/alerts/alerts.component').then((m) => m.AlertsComponent),  // Alias for lazy load
       },
       {
         path: 'sos',
         loadComponent: () =>
-          import('./tabs/sos.page').then((m) => m.SosPage),
+          import('@pages/home/tabs/sos/sos.component').then((m) => m.SosComponent),  // Alias for lazy load
       },
     ],
   },

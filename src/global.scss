@@ -2,25 +2,12 @@
    Whisper – Global Stylesheet
    ========================================================================= */
 
-/* ── Ionic Core + Utilities (do not modify) ─────────────────────────────── */
-@import "@ionic/angular/css/core.css";
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
-
-/* ── Optional Ionic Utility Packs ───────────────────────────────────────── */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
 
 /* ── Leaflet styles ─────────────────────────────────────────────────────── */
-@import "leaflet/dist/leaflet.css";
+@use "leaflet/dist/leaflet.css";
 
 /* ── App Variables ──────────────────────────────────────────────────────── */
-@import "theme/variables";
+@use "theme/variables" as *;
 
 
 /* ── Root Tokens and Global Reset ───────────────────────────────────────── */
@@ -94,7 +81,7 @@ ion-toolbar {
 
 /* ── Components Base ────────────────────────────────────────────────────── */
 ion-button {
-  border-radius: $radius-xl;
+  border-radius: var(--ion-border-radius);
   font-family: var(--font-secondary);
   font-weight: 600;
   font-size: 16px;
