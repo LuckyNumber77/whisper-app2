@@ -18,6 +18,8 @@ import { SaCsvService } from '../../services/sa-csv.service';
 import { ZipLookupService } from '../../services/zip-lookup.service';
 import { BlockGroupLookupService } from '../../services/block-group-lookup.service';
 import { ProfileService } from '../../services/profile.service';
+import { SheetStateService } from '../../services/sheet-state.service';
+
 
 /* ───────────────────────────── 3. Interfaces & types ───────────────────── */
 interface Incident {
@@ -107,6 +109,11 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
   selectedNeighbourhood = 'all';
   neighbourhoodOptions: NeighbourhoodOption[] = [];
 
+  // --- Add to Section 5.1 Public reactive state (after neighbourhoodOptions, before 5.2) ---
+  sheetMode: 'none' | 'contacts' | 'alerts' = 'none';
+  private sheetSub?: Subscription;
+
+
   /* ───── 5.2  Static lookup tables ────────────────────────────────────── */
   private cityNeighbourhoods: Record<string, NeighbourhoodOption[]> = {};
   private cityCenters: Record<string, [number, number]> = {
@@ -135,11 +142,18 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     private zipSvc: ZipLookupService,
     private bgSvc: BlockGroupLookupService,
     private profileSvc: ProfileService,
-    private zone: NgZone
+    private zone: NgZone,
+    private sheetState: SheetStateService // <-- Add this!
   ) {
     const cur = new Date().getFullYear();
     for (let y = cur; y >= cur - 10; y--) this.availableYears.push(y);
+
+    // --- Subscribe to sheet state ---
+    this.sheetSub = this.sheetState.sheetMode$.subscribe(mode => {
+      this.sheetMode = mode;
+    });
   }
+
 
   /* ───────────────────────────── 6. Lifecycle hooks ───────────────────── */
   async ngOnInit(): Promise<void> {
@@ -173,6 +187,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
+    this.sheetSub?.unsubscribe(); // <--- Add this line
     if (this.map) {
       this.map.off();
       this.map.remove();
@@ -190,6 +205,9 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     }, 300);  // Bumped to 300ms for better flex settle
   }
 
+  closeSheet() {
+    this.sheetState.hide();
+  }
 
   /* ───────────────────────────── 7. UI-event handlers ─────────────────── */
   onCityChange(city: string): void {
@@ -559,6 +577,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
       // Year filter removed here since fetch is per-year; keeps it efficient
   }
 }
+
 
 /* =============================================================================
    End of MapLegacyPage

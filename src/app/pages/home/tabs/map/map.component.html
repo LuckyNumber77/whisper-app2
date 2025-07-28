@@ -1,2 +1,47 @@
 <!-- src/app/pages/home/tabs/map/map.component.html -->
+
+<!-- Map Container (use either #mapContainer or #map as needed for your project) -->
 <div #mapContainer style="height: 100vh; width: 100%"></div>
+<div id="map"></div>
+
+<!-- Sliding Card Sheet Overlay -->
+<div
+  class="card-sheet"
+  [ngClass]="sheetState"
+  (click)="toggleHalfSheet()"
+  (mousedown)="startDrag($event)"
+  (touchstart)="startDrag($event)"
+>
+  <!-- Sheet Header -->
+  <div class="sheet-header">
+    <span class="drag-handle"></span>
+    <h2>Trusted Contacts</h2>
+    <button class="add-contact-btn" aria-label="Add trusted contact">
+      <ion-icon name="add-circle"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Avatar Row -->
+  <div class="avatar-row">
+    <div class="avatar" *ngFor="let contact of contacts">
+      <img *ngIf="contact.avatarUrl" [src]="contact.avatarUrl" [alt]="contact.name" />
+      <span *ngIf="!contact.avatarUrl">{{ contact.name[0] }}</span>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <ion-button expand="block" color="primary" (click)="openShareShareLocation()">
+      <ion-icon name="navigate-circle" slot="start"></ion-icon>
+      Track Me
+    </ion-button>
+    <ion-button expand="block" color="secondary" (click)="openStandBy()">
+      <ion-icon name="timer" slot="start"></ion-icon>
+      Stand-by
+    </ion-button>
+    <ion-button expand="block" color="tertiary" (click)="openSafetyCheck()">
+      <ion-icon name="shield-checkmark" slot="start"></ion-icon>
+      Safety Check
+    </ion-button>
+  </div>
+</div>

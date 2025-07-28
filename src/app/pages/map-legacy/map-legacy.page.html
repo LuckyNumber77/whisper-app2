@@ -119,5 +119,28 @@
     </ion-text>
   </div>
   <!-- /incident-wrapper -->
+  <!-- Half-Sheet Overlay for Contacts or Alerts -->
+  <div *ngIf="sheetMode !== 'none'" class="card-sheet-overlay">
+    <div class="card-sheet">
+      <div class="sheet-header">
+        <span class="drag-handle"></span>
+        <h2 *ngIf="sheetMode === 'contacts'">Trusted Contacts</h2>
+        <h2 *ngIf="sheetMode === 'alerts'">Alerts</h2>
+        <button class="close-btn" (click)="closeSheet()" aria-label="Close">&times;</button>
+      </div>
+
+      <!-- Trusted Contacts Content -->
+      <ng-container *ngIf="sheetMode === 'contacts'">
+        <!-- Insert contacts UI here (add/remove/view) -->
+        <p>Contacts panel content goes here…</p>
+      </ng-container>
+
+      <!-- Alerts Content -->
+      <ng-container *ngIf="sheetMode === 'alerts'">
+        <!-- Insert alerts UI here (timeline, send, etc) -->
+        <p>Alerts panel content goes here…</p>
+      </ng-container>
+    </div>
+  </div>
 
 </ion-content>

@@ -1,25 +1,21 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom" color="light">
-
-    <ion-tab-button tab="map" [routerLink]="['/home/map']">
+    <ion-tab-button tab="map" (click)="onMapTab()" [routerLink]="['/tabs/map']">
       <ion-icon name="map-outline"></ion-icon>
       <ion-label>Map</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="contacts" [routerLink]="['/home/contacts']">
+    <ion-tab-button tab="contacts" (click)="onShowSheet('contacts')">
       <ion-icon name="people-outline"></ion-icon>
       <ion-label>Contacts</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="alerts" [routerLink]="['/home/alerts']">
+    <ion-tab-button tab="alerts" (click)="onShowSheet('alerts')">
       <ion-icon name="notifications-outline"></ion-icon>
       <ion-label>Alerts</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="sos" [routerLink]="['/home/sos']">
+    <ion-tab-button tab="sos" (click)="onSOS()">
       <ion-icon name="alert-circle-outline"></ion-icon>
       <ion-label>SOS</ion-label>
     </ion-tab-button>
-
   </ion-tab-bar>
+  <router-outlet></router-outlet>
 </ion-tabs>

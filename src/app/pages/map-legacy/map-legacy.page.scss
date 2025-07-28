@@ -221,3 +221,77 @@ ion-content.page-layout {
   margin-right: 8px;
   flex-shrink: 0;
 }
+
+/* ───────────────────────────── Card Sheet Overlay (Contacts/Alerts) ────── */
+.card-sheet-overlay {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 1100;  /* ensure above map, legend, and tab bar */
+  background: rgba(0,0,0,0.08);  /* Optional: subtle dim background */
+  display: flex;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.card-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: #FEFDFE;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  box-shadow: 0 -4px 18px 0 rgba(76,58,99,0.16);
+  padding: 26px 20px 32px 20px;
+  margin-bottom: env(safe-area-inset-bottom, 0);
+  position: relative;
+  animation: slideUpSheet 0.33s cubic-bezier(0.36,1.5,0.5,1) 1;
+
+  .sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #332742;
+      margin: 0;
+    }
+
+    .drag-handle {
+      width: 40px;
+      height: 5px;
+      background-color: #ccc;
+      border-radius: 2.5px;
+      margin-right: 16px;
+      cursor: grab;
+      display: inline-block;
+      opacity: 0.55;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 2.3rem;
+      color: #887C97;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 6px;
+    }
+  }
+
+  /* Optional: If you want the overlay to scroll on small screens: */
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+/* Nice slide-up animation for overlay */
+@keyframes slideUpSheet {
+  from {
+    transform: translateY(75%);
+    opacity: 0.1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

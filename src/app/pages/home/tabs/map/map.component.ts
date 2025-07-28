@@ -15,9 +15,10 @@ import { SafetyCheckModalComponent } from '@components/modals/safety-check-modal
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent {
-  isHalfOpen = true;
-  isFullOpen = false;
+  // Sheet state: collapsed | half | full (default to 'half' for initial load)
+  sheetState: 'collapsed' | 'half' | 'full' = 'half';
 
+  // Contacts array (use actual avatar images or fallback initials)
   contacts = [
     { name: 'Alice', avatarUrl: 'assets/avatars/alice.jpg' },
     { name: 'Bob', avatarUrl: 'assets/avatars/bob.jpg' },
@@ -27,18 +28,23 @@ export class MapComponent {
 
   constructor(private modalCtrl: ModalController) {}
 
+  // Cycles through sheet states: collapsed → half → full → collapsed ...
   toggleHalfSheet() {
-    if (this.isHalfOpen) {
-      this.isFullOpen = true;
-      this.isHalfOpen = false;
-    } else if (this.isFullOpen) {
-      this.isHalfOpen = false;
-      this.isFullOpen = false;
+    if (this.sheetState === 'half') {
+      this.sheetState = 'full';
+    } else if (this.sheetState === 'full') {
+      this.sheetState = 'collapsed';
     } else {
-      this.isHalfOpen = true;
+      this.sheetState = 'half';
     }
   }
 
+  // (Optional) For later: startDrag handler stub
+  startDrag(event: MouseEvent | TouchEvent) {
+    // To be implemented: handle drag/touch events for interactive sheet movement
+  }
+
+  // Open Share Location Modal
   async openShareShareLocation() {
     const modal = await this.modalCtrl.create({
       component: ShareLocationModalComponent,
@@ -46,6 +52,7 @@ export class MapComponent {
     await modal.present();
   }
 
+  // Open Stand-by Modal
   async openStandBy() {
     const modal = await this.modalCtrl.create({
       component: StandbyModalComponent,
@@ -53,6 +60,7 @@ export class MapComponent {
     await modal.present();
   }
 
+  // Open Safety Check Modal
   async openSafetyCheck() {
     const modal = await this.modalCtrl.create({
       component: SafetyCheckModalComponent,
