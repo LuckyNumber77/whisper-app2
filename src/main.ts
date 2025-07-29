@@ -1,5 +1,10 @@
 import { addIcons } from 'ionicons';
-import { businessOutline, mapOutline, calendarOutline, funnelOutline } from 'ionicons/icons';
+import {
+  businessOutline,
+  mapOutline,
+  calendarOutline,
+  funnelOutline
+} from 'ionicons/icons';
 
 addIcons({
   'business-outline': businessOutline,
@@ -18,15 +23,11 @@ import {
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { provideHttpClient } from '@angular/common/http';
 
-import { routes } from './app/app.routes';
-import { AppComponent } from './app/app.component';
-import { environment } from './environments/environment';
-// src/main.ts
 import { register } from 'swiper/element/bundle';
 register();
 
-
-
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [

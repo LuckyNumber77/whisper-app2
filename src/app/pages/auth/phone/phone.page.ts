@@ -1,7 +1,6 @@
 // src/app/pages/auth/phone/phone.page.ts
 import { Component }    from '@angular/core';
 import { Router }       from '@angular/router';
-
 import { IonicModule }  from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule }  from '@angular/forms';
@@ -28,7 +27,7 @@ export class PhonePage {
   ) {}
 
   async sendCode() {
-    // send SMS
+    // send SMS via Firebase
     await this.auth.sendPhoneVerification(this.phone);
     // navigate to verification screen
     await this.router.navigate(['/verify']);

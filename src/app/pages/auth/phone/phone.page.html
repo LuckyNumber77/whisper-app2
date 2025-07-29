@@ -1,26 +1,28 @@
 <ion-content fullscreen class="phone-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Enter your Phone Number</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="create-header">
+    <div class="title">Enter your Phone Number</div>
+  </div>
 
-  <form (ngSubmit)="sendCode()" #form="ngForm" class="phone-form">
-    <ion-item>
-      <ion-input
-        type="tel"
-        name="phone"
-        placeholder="+1 555-123-4567"
-        required
-        [(ngModel)]="phone">
-      </ion-input>
-    </ion-item>
+  <div class="create-panel">
+    <form (ngSubmit)="sendCode()" #form="ngForm" class="create-form">
+      <ion-item>
+        <ion-input
+          class="create-input"
+          type="tel"
+          name="phone"
+          placeholder="+1 555-123-4567"
+          required
+          [(ngModel)]="phone">
+        </ion-input>
+      </ion-item>
 
-    <ion-button
-      expand="block"
-      type="submit"
-      [disabled]="form.invalid">
-      Next
-    </ion-button>
-  </form>
+      <ion-button
+        class="create-actions"
+        expand="block"
+        type="submit"
+        [disabled]="form.invalid">
+        Next
+      </ion-button>
+    </form>
+  </div>
 </ion-content>

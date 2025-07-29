@@ -1,0 +1,90 @@
+/* login.page.scss */
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+}
+
+.login-header {
+  flex: none;
+  padding: 150px 24px 16px;
+  text-align: center;
+
+  .logo-wrapper {
+    /* Increase diameter, center it */
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
+    border: 2px solid #4C3A63;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      /* Make the SVG fill the circle */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #332742;
+    margin: 0;
+  }
+}
+
+.login-panel {
+  margin-top: auto;
+  background: #fcf0f0;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 350px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  ion-item {
+    --background: #fff;
+    --border-radius: 0;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 50px;
+    border: 1px solid #4C3A63;
+
+    ion-input {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: #332742;
+    }
+  }
+
+  ion-button {
+    --background: #4C3A63;
+    --border-radius: 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #FFF4F4;
+  }
+
+  .forgot-link {
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    color: #332742;
+
+    a {
+      font-weight: 600;
+      color: #332742;
+      margin-left: 4px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+}

@@ -1,16 +1,51 @@
+/* src/app/pages/auth/phone/phone.page.scss */
+/* 1) Make the pink panel sit flush to the bottom with no extra whitespace */
 .phone-content {
-  --background: #fff4f4;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  --background: #fff; /* white above the panel */
 }
 
-.phone-form {
+.phone-header {
+  background: #fff;
+  padding: 150px 24px 16px; /* same vertical inset as your Create page header */
+  flex: none;
+}
+
+.phone-panel {
+  margin-top: auto;         /* push to bottom */
+  background: transparent;  /* panel area is already pink via the page’s overall background */
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 150px 24px 0;    /* only top padding */
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 24px;
 }
 
-ion-button {
-  --background: #4c3a63;
-  --color: #fff4f4;
+.phone-panel ion-input {
+  --background: #fff;
+  --border-radius: 0;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 50px;
+  border: 1px solid #4C3A63;
+}
+
+.phone-panel .description {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  color: #332742;
+  text-align: center;
+}
+
+.phone-panel ion-button {
+  --background: #4C3A63;
+  --border-radius: 8px;
+  width: 145px;
+  align-self: flex-end;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  color: #FFF4F4;
 }

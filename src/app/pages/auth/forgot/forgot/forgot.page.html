@@ -1,0 +1,26 @@
+<ion-content fullscreen class="forgot-content">
+  <div class="forgot-header">
+    <h1>Forgot Password</h1>
+    <p>Enter your email to receive a reset link</p>
+  </div>
+
+  <form (ngSubmit)="sendResetLink()" #form="ngForm" class="forgot-form">
+    <ion-item>
+      <ion-input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        [(ngModel)]="email">
+      </ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="form.invalid">
+      Send Reset Link
+    </ion-button>
+  </form>
+
+  <div class="back-link" (click)="goBackToLogin()">
+    &larr; Back to Log In
+  </div>
+</ion-content>

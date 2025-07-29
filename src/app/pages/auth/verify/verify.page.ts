@@ -1,7 +1,6 @@
 // src/app/pages/auth/verify/verify.page.ts
 import { Component }    from '@angular/core';
 import { Router }       from '@angular/router';
-
 import { IonicModule }  from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule }  from '@angular/forms';
@@ -28,9 +27,9 @@ export class VerifyPage {
   ) {}
 
   async verify() {
-    // link phone credential
+    // link the SMS credential to the user
     await this.auth.verifyPhoneCode(this.code);
-    // once verified, send user into the app
+    // once verified, go to the app
     await this.router.navigate(['/home']);
   }
 }

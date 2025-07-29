@@ -95,4 +95,8 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'welcome',
   },
+  {
+    path: 'forgot',
+    loadComponent: () => import('./pages/auth/forgot/forgot/forgot.page').then( m => m.ForgotPage)
+  },
 ];

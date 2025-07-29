@@ -1,0 +1,38 @@
+.forgot-content {
+  --background: #fff4f4; // or whatever
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.forgot-header {
+  text-align: center;
+  margin-bottom: 24px;
+
+  h1 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #332742;
+  }
+  p {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    color: #332742;
+  }
+}
+
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.back-link {
+  margin-top: 16px;
+  text-align: center;
+  color: #4C3A63;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+}
