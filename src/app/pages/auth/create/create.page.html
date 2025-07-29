@@ -1,64 +1,67 @@
-<ion-content fullscreen class="create-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Create your account</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="create-content" fullscreen>
+  <!-- White header area -->
+  <div class="create-header">
+    <div class="title">Create your account</div>
+    <div class="subtitle">Sign into your account</div>
+  </div>
 
-  <form (ngSubmit)="onSubmit()" #form="ngForm" class="create-form">
-    <ion-item>
-      <ion-input
-        name="first"
-        placeholder="First Name"
-        required
-        [(ngModel)]="firstName">
-      </ion-input>
-    </ion-item>
+  <!-- Pink panel pinned to bottom -->
+  <div class="create-panel">
+    <form class="create-form" (ngSubmit)="onSubmit()">
+      <ion-item class="create-input">
+        <ion-input
+          placeholder="First Name"
+          [(ngModel)]="firstName"
+          name="firstName"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input
-        name="last"
-        placeholder="Last Name"
-        required
-        [(ngModel)]="lastName">
-      </ion-input>
-    </ion-item>
+      <ion-item class="create-input">
+        <ion-input
+          placeholder="Last Name"
+          [(ngModel)]="lastName"
+          name="lastName"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-        [(ngModel)]="email">
-      </ion-input>
-    </ion-item>
+      <ion-item class="create-input">
+        <ion-input
+          placeholder="Email"
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-        [(ngModel)]="password">
-      </ion-input>
-    </ion-item>
+      <ion-item class="create-input">
+        <ion-input
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input
-        type="password"
-        name="confirm"
-        placeholder="Confirm Password"
-        required
-        [(ngModel)]="confirmPassword">
-      </ion-input>
-    </ion-item>
+      <ion-item class="create-input">
+        <ion-input
+          placeholder="Confirm Password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          type="password"
+        ></ion-input>
+      </ion-item>
 
-    <ion-button
-      expand="block"
-      type="submit"
-      [disabled]="form.invalid || password !== confirmPassword">
-      Next
-    </ion-button>
-  </form>
+      <div class="tos">
+        By creating an account you agree to our Terms of Service and Privacy Policy.
+      </div>
+
+      <div class="create-actions">
+        <ion-button type="submit">Next</ion-button>
+      </div>
+    </form>
+
+    <div class="login-link">
+      Already have an account?<a (click)="goToLogin()">Log In</a>
+    </div>
+  </div>
 </ion-content>

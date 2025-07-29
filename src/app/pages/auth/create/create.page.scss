@@ -1,16 +1,109 @@
+/* full-height flex container, now pink */
 .create-content {
-  --background: #fff4f4;
-  padding: 24px;
+  --background: #fcf0f0;      /* pink all the way */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;                 /* no extra padding */
 }
 
+/* white header on top */
+.create-header {
+  background: #fff;           /* white */
+  padding: 150px 24px 16px;    /* as before */
+  flex: none;                 /* don’t stretch */
+
+  .title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31.2px;
+    color: #332742;
+    margin: 8px 0 8px;        /* nudge down slightly */
+  }
+
+  .subtitle {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #332742;
+    margin: 0;
+  }
+}
+
+/* pink bottom panel pushed down with no bottom gap */
+.create-panel {
+  margin-top: auto;           /* push to bottom */
+  background: transparent;    /* content area already pink */
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 150px 24px 0;       /* top padding only */
+  display: flex;
+  flex-direction: column;
+}
+
+/* form inputs */
 .create-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 24px;
+
+  .create-input {
+    --background: #fff;
+    --border-radius: 0;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 50px;
+    border: 1px solid #4C3A63;
+  }
+
+  ion-input {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #332742;
+  }
+
+  .tos {
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: #332742;
+    text-align: center;
+    margin-top: 8px;
+  }
 }
 
-ion-button {
-  --background: #4c3a63;
-  --color: #fff4f4;
+/* Next button */
+.create-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+
+  ion-button {
+    --background: #4C3A63;
+    --border-radius: 8px;
+    width: 145px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #FFF4F4;
+  }
+}
+
+/* Login link */
+.login-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: #332742;
+  text-align: center;
+  margin: 24px 0 0;
+
+  a {
+    margin-left: 4px;
+    font-weight: 600;
+    color: #4C3A63;
+    text-decoration: none;
+  }
 }
