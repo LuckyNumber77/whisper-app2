@@ -1,0 +1,15 @@
+<ion-content class="onboarding-content" fullscreen>
+  <swiper-container
+    #slidesRef
+    pagination="true"
+    loop="false"
+    speed="400"
+    initial-slide="0"
+    style="height: 100%;"
+  >
+    <swiper-slide *ngFor="let slide of slides" class="onboarding-slide">
+      <h2>{{ slide.title }}</h2>
+      <p>{{ slide.copy }}</p>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>

@@ -1,0 +1,119 @@
+// Full-screen background: white
+.welcome-content {
+  --background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+// Container to stack header + panel
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// White header (auto height)
+.welcome-header {
+  padding: 50px 24px 0; // 50px top, 24px sides
+  background: var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+// The rounded “card” at the bottom
+.welcome-panel {
+  margin-top: auto;            // push to bottom
+  padding: 50px 24px;          // 50px top & bottom, 24px sides
+  background: #fff4f4;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+// Heading
+.welcome-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #332742;
+  margin: 0;
+}
+
+// Sub-copy
+.welcome-copy {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #332742;
+  text-align: center;
+  max-width: 280px;
+}
+
+// Get Started primary button
+.get-started-btn {
+  width: 100%;
+  max-width: 375px;
+  padding: 12px 0;
+  background: #4C3A63;
+  color: #FFF4F4;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+// “or register with:”
+.social-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.register-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: #332742;
+}
+
+// Social icons row
+.social-buttons {
+  display: flex;
+  gap: 12px;
+}
+.social-button {
+  width: 32px;
+  height: 32px;
+  background: #4C3A63;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  ion-icon {
+    color: #FFF4F4;
+    font-size: 18px;
+  }
+}
+
+// Log-in link
+.login-cta {
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: #332742;
+  text-decoration: underline;
+  cursor: pointer;
+}

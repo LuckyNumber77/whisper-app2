@@ -1,10 +1,11 @@
 // src/app/pages/home/tabs/tabs.page.ts
 import { Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular'; 
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SheetStateService } from 'src/app/services/sheet-state.service';
+import { SheetStateService } from '../../../services/sheet-state.service';
+
 
 @Component({
   selector: 'app-tabs',

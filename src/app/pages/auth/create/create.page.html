@@ -1,0 +1,64 @@
+<ion-content fullscreen class="create-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Create your account</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="create-form">
+    <ion-item>
+      <ion-input
+        name="first"
+        placeholder="First Name"
+        required
+        [(ngModel)]="firstName">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        name="last"
+        placeholder="Last Name"
+        required
+        [(ngModel)]="lastName">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+        [(ngModel)]="email">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        [(ngModel)]="password">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="password"
+        name="confirm"
+        placeholder="Confirm Password"
+        required
+        [(ngModel)]="confirmPassword">
+      </ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="form.invalid || password !== confirmPassword">
+      Next
+    </ion-button>
+  </form>
+</ion-content>

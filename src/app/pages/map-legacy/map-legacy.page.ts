@@ -17,7 +17,7 @@ import { CacheService } from '../../services/cache.service';
 import { SaCsvService } from '../../services/sa-csv.service';
 import { ZipLookupService } from '../../services/zip-lookup.service';
 import { BlockGroupLookupService } from '../../services/block-group-lookup.service';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService }    from '../../services/profile.service';
 import { SheetStateService } from '../../services/sheet-state.service';
 
 

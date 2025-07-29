@@ -21,6 +21,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
+// src/main.ts
+import { register } from 'swiper/element/bundle';
+register();
+
+
+
 
 bootstrapApplication(AppComponent, {
   providers: [

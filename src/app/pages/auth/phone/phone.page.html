@@ -1,0 +1,26 @@
+<ion-content fullscreen class="phone-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Enter your Phone Number</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form (ngSubmit)="sendCode()" #form="ngForm" class="phone-form">
+    <ion-item>
+      <ion-input
+        type="tel"
+        name="phone"
+        placeholder="+1 555-123-4567"
+        required
+        [(ngModel)]="phone">
+      </ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="form.invalid">
+      Next
+    </ion-button>
+  </form>
+</ion-content>

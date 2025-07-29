@@ -1,0 +1,16 @@
+.create-content {
+  --background: #fff4f4;
+  padding: 24px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+ion-button {
+  --background: #4c3a63;
+  --color: #fff4f4;
+}

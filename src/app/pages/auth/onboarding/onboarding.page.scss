@@ -1,0 +1,29 @@
+.onboarding-content {
+  --background: #fff; 
+}
+
+.onboarding-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.onboarding-slide h2 {
+  font-family: 'Manrope', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #332742;
+  margin-bottom: 12px;
+}
+
+.onboarding-slide p {
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #332742;
+  max-width: 300px;
+  line-height: 20px;
+}

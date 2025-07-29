@@ -1,0 +1,46 @@
+<ion-content class="welcome-content" fullscreen>
+  <div class="welcome-container">
+    <!-- top, white area -->
+    <div class="welcome-header">
+      <h1 class="welcome-title">Welcome to Whisper</h1>
+      <p class="welcome-copy">
+        Your personal safety companion built to support your intuition, keep you connected,
+        and help you act early when something feels off.
+      </p>
+    </div>
+
+    <!-- bottom, pink card -->
+    <div class="welcome-panel">
+      <h1 class="welcome-title"></h1>
+      <p class="welcome-copy">
+
+      </p>
+
+      <!-- “Get Started” button -->
+      <button class="get-started-btn" (click)="goToSignup()">
+        Get Started
+      </button>
+
+      <!-- Social registration line -->
+      <div class="social-line">
+        <span class="register-label">or register with:</span>
+        <div class="social-buttons">
+          <button class="social-button" (click)="signInWithGoogle()">
+            <ion-icon name="logo-google"></ion-icon>
+          </button>
+          <button class="social-button" (click)="signInWithFacebook()">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </button>
+          <button class="social-button" (click)="signInWithApple()">
+            <ion-icon name="logo-apple"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Log-in CTA -->
+      <div class="login-cta" (click)="goToLogin()">
+        Already a user? Log In
+      </div>
+    </div>
+  </div>
+</ion-content>

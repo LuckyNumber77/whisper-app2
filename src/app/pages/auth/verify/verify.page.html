@@ -1,0 +1,27 @@
+<ion-content fullscreen class="verify-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Verify your Phone Number</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form (ngSubmit)="verify()" #form="ngForm" class="verify-form">
+    <ion-item>
+      <ion-input
+        type="text"
+        name="code"
+        placeholder="Enter code sent to your phone"
+        required
+        maxlength="6"
+        [(ngModel)]="code">
+      </ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      [disabled]="form.invalid">
+      Next
+    </ion-button>
+  </form>
+</ion-content>
