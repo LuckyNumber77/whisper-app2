@@ -1,8 +1,8 @@
 <!-- src/app/pages/home/tabs/tabs.page.html -->
 <ion-tabs>
-  <ion-router-outlet></ion-router-outlet>
+  
 
-  <ion-tab-bar class="has-sos" slot="bottom">
+  <ion-tab-bar slot="bottom">
     <ion-tab-button tab="map">
       <ion-icon name="map-outline"></ion-icon>
       <ion-label>Map</ion-label>
@@ -13,21 +13,16 @@
       <ion-label>Contacts</ion-label>
     </ion-tab-button>
 
-    <!-- now the Alerts tab in column 3 -->
     <ion-tab-button tab="alerts">
       <ion-icon name="notifications-outline"></ion-icon>
       <ion-label>Alerts</ion-label>
     </ion-tab-button>
-
-    <!-- ghost in column 4 for SOS to float over -->
-    <ion-tab-button class="sos-ghost" disabled></ion-tab-button>
   </ion-tab-bar>
-
-  <!-- floating SOS fab -->
-  <ion-fab class="sos-fab-container" slot="fixed" vertical="bottom" horizontal="start">
-    <ion-fab-button class="sos-fab" (click)="onSOS()">
-      <ion-icon name="alert-circle-outline"></ion-icon>
-      <span class="fab-label">S.O.S</span>
-    </ion-fab-button>
-  </ion-fab>
 </ion-tabs>
+
+<!-- still in tabs.page.html, below the closing </ion-tabs> -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button class="sos-fab" (click)="onSOS()">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

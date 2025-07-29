@@ -113,8 +113,3 @@ ion-tab-bar {
   padding-right: 80px; // ✅ reserve space so SOS doesn’t overlap labels
 }
 
-.card-sheet-overlay {
-  pointer-events: auto !important;
-  z-index: 2000 !important;
-  opacity: 0.3 !important; /* For debugging - remove later */
-}
