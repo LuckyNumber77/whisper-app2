@@ -1,0 +1,81 @@
+<!-- src/app/pages/account/profile/profile.page.html -->
+
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleEdit()" [disabled]="isLoading">
+        <ion-icon
+          slot="icon-only"
+          [name]="isEditing ? 'close' : 'create'"
+          [color]="isEditing ? 'danger' : 'primary'">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding profile-page">
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">First Name</ion-label>
+      <ion-input
+        [(ngModel)]="user.firstName"
+        [readonly]="!isEditing || isLoading"
+        [disabled]="isLoading">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Last Name</ion-label>
+      <ion-input
+        [(ngModel)]="user.lastName"
+        [readonly]="!isEditing || isLoading"
+        [disabled]="isLoading">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input
+        [value]="user.email"
+        readonly
+        type="email"
+        [disabled]="isLoading">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Phone</ion-label>
+      <ion-input
+        [(ngModel)]="user.phone"
+        [readonly]="!isEditing || isLoading"
+        type="tel"
+        [disabled]="isLoading">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="edit-buttons" *ngIf="isEditing">
+    <ion-button expand="block" color="danger" (click)="toggleEdit()" [disabled]="isLoading">
+      Cancel
+    </ion-button>
+    <ion-button expand="block" color="success" (click)="saveChanges()" [disabled]="isLoading">
+      <ion-spinner *ngIf="isLoading"></ion-spinner>
+      <span *ngIf="!isLoading">Save</span>
+    </ion-button>
+  </div>
+
+  <ion-button
+    expand="block"
+    color="danger"
+    (click)="delete()"
+    *ngIf="!isEditing"
+    [disabled]="isLoading">
+    <ion-spinner *ngIf="isLoading"></ion-spinner>
+    <span *ngIf="!isLoading">Delete Account</span>
+  </ion-button>
+</ion-content>
