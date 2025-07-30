@@ -1,9 +1,20 @@
 {
   "emulators": {
-    "auth": { "port": 9099 },
-    "firestore": { "port": 8085 },
-    "storage": { "port": 9199 },
-    "ui": { "enabled": true, "port": 4000 }
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9099,
+      "exportOnExit": "./emulator-data/auth"
+    },
+    "firestore": {
+      "port": 8085
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    }
   },
   "firestore": {
     "rules": "firestore.rules"

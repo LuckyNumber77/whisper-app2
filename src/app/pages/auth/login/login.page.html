@@ -29,9 +29,15 @@
       SIGN IN
     </ion-button>
 
-    <div class="forgot-link">
-      <span>Forgot your password?</span>
-      <a (click)="goToForgot()">Reset</a>
+    <div class="login-links">
+      <div class="forgot-link">
+        <span>Forgot your password?</span>
+        <a (click)="goToForgot()">Reset</a>
+      </div>
+      <div class="create-link">
+        <span>Don't have an account?</span>
+        <a (click)="goToCreate()">Create one</a>
+      </div>
     </div>
   </div>
 </ion-content>

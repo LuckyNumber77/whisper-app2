@@ -1,23 +1,18 @@
 // src/app/pages/auth/create/create.page.ts
-import { Component }      from '@angular/core';
-import { Router }         from '@angular/router';
-import { IonicModule }    from '@ionic/angular';
-import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
+import { Component }        from '@angular/core';
+import { Router }           from '@angular/router';
+import { IonicModule }      from '@ionic/angular';
+import { CommonModule }     from '@angular/common';
+import { FormsModule }      from '@angular/forms';
 
-import { AuthService }    from '../../../services/auth.service';
-import { ProfileService } from '../../../services/profile.service';
+import { AuthService }      from '../../../services/auth.service';
 
 @Component({
   selector: 'app-create',
+  standalone: true,
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
-  standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule
-  ]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class CreatePage {
   firstName       = '';
@@ -28,7 +23,6 @@ export class CreatePage {
 
   constructor(
     private auth: AuthService,
-    private profile: ProfileService,
     private router: Router
   ) {}
 
@@ -40,28 +34,25 @@ export class CreatePage {
     }
 
     try {
-      console.log('1️⃣ Calling signUp…');
+      // 1️⃣ Sign up to Firebase Auth
       await this.auth.signUp(this.email, this.password);
-      console.log('✅ signUp succeeded');
 
-      console.log('2️⃣ Saving profile…');
-      await this.profile.saveProfile({
+      // 2️⃣ Temporarily stash the profile info until after phone verify
+      sessionStorage.setItem('pendingProfile', JSON.stringify({
         firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email
-      });
-      console.log('✅ profile saved');
+        lastName:  this.lastName,
+        email:     this.email
+      }));
 
-      console.log('3️⃣ Navigating to /phone');
-      const navigated = await this.router.navigate(['/phone']);
-      console.log('➡️ navigation returned', navigated);
+      // 3️⃣ Go to phone verification
+      await this.router.navigate(['/phone'], { replaceUrl: true });
     } catch (err: any) {
       console.error('🔥 onSubmit error:', err);
+      // TODO: show user-facing error toast
     }
   }
 
-  /** “Already have an account? Log In” */
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 }

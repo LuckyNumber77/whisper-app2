@@ -13,11 +13,7 @@ import { AuthService }  from '../../../services/auth.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule
-  ]
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class LoginPage {
   email    = '';
@@ -28,17 +24,24 @@ export class LoginPage {
     private router: Router
   ) {}
 
+  /** Attempt to sign in with email/password */
   async signIn() {
     try {
       await this.auth.login(this.email, this.password);
-      this.router.navigate(['/home']);
-    } catch (e) {
-      // TODO: track failed attempts, show error toast, etc.
+      await this.router.navigateByUrl('/home', { replaceUrl: true });
+    } catch (e: any) {
       console.error('Login failed', e);
+      // TODO: show an error toast/toastController.present(...)
     }
   }
 
+  /** Navigate to Forgot Password flow */
   goToForgot() {
     this.router.navigate(['/forgot']);
+  }
+
+  /** Navigate to Create Account flow */
+  goToCreate() {
+    this.router.navigate(['/create']);
   }
 }

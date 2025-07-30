@@ -6,7 +6,7 @@ import { SwiperContainer } from 'swiper/element';
 
 interface Slide {
   title: string;
-  copy: string;
+  copy:  string;
 }
 
 @Component({
@@ -22,10 +22,22 @@ export class OnboardingPage implements OnInit, AfterViewInit {
   slidesRef!: ElementRef<SwiperContainer>;
 
   slides: Slide[] = [
-    { title: 'Always on, never in the way.', copy: 'Discreet safety features that stay ready without interrupting your day.' },
-    { title: 'Share your steps. Stay connected.',   copy: 'Live location and instant alerts keep your circle in the loop.' },
-    { title: 'Custom tools for every moment.',      copy: 'Voice triggers, alerts, and sharing — tailored to fit your life.' },
-    { title: 'Confidence, wherever you go.',        copy: 'Whisper helps you act early and move through the world with ease.' },
+    {
+      title: 'Always on, never in the way.',
+      copy:  'Discreet safety features that stay ready without interrupting your day.'
+    },
+    {
+      title: 'Share your steps. Stay connected.',
+      copy:  'Live location and instant alerts keep your circle in the loop.'
+    },
+    {
+      title: 'Custom tools for every moment.',
+      copy:  'Voice triggers, alerts, and sharing — tailored to fit your life.'
+    },
+    {
+      title: 'Confidence, wherever you go.',
+      copy:  'Whisper helps you act early and move through the world with ease.'
+    }
   ];
 
   constructor(private router: Router) {}

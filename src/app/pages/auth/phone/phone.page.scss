@@ -49,3 +49,12 @@
   font-size: 12px;
   color: #FFF4F4;
 }
+
+/* ensure the reCAPTCHA widget never shows up visually */
+#recaptcha-container {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}

@@ -1,3 +1,4 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { AuthGuard } from './services/auth.guard';
 
@@ -50,14 +51,24 @@ export const routes: Routes = [
       import('./pages/auth/forgot/forgot/forgot.page').then(m => m.ForgotPage),
   },
 
-  // 6) Protected Home/Tabs area
+  // 6) Protected Home/Tabs area (only MapLegacy for now)
   {
     path: 'home',
     canActivate: [AuthGuard],
     loadComponent: () =>
       import('./pages/home/tabs/tabs.page').then(m => m.TabsPage),
     children: [
-      /* your tab children here */
+      // Redirect /home → /home/map-legacy
+      { path: '', redirectTo: 'map-legacy', pathMatch: 'full' },
+
+      // Map tab → MapLegacyPage
+      {
+        path: 'map-legacy',
+        loadComponent: () =>
+          import('./pages/map-legacy/map-legacy.page').then(
+            m => m.MapLegacyPage
+          ),
+      },
     ],
   },
 

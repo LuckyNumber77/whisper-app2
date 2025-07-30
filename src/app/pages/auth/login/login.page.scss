@@ -1,4 +1,4 @@
-/* login.page.scss */
+/* src/app/pages/auth/login/login.page.scss */
 
 .login-content {
   display: flex;
@@ -13,7 +13,6 @@
   text-align: center;
 
   .logo-wrapper {
-    /* Increase diameter, center it */
     width: 120px;
     height: 120px;
     margin: 0 auto 16px;
@@ -22,7 +21,6 @@
     overflow: hidden;
 
     img {
-      /* Make the SVG fill the circle */
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -50,11 +48,19 @@
 
   ion-item {
     --background: #fff;
+    --background-hover: #fff;
+    --background-focused: #fff;
     --border-radius: 0;
     --padding-start: 16px;
     --padding-end: 16px;
     --min-height: 50px;
     border: 1px solid #4C3A63;
+
+    /* Ensure no grey overlay on hover/focus */
+    &:hover,
+    &:focus-within {
+      background: #fff !important;
+    }
 
     ion-input {
       font-family: 'Manrope', sans-serif;
@@ -73,18 +79,28 @@
     color: #FFF4F4;
   }
 
-  .forgot-link {
-    text-align: center;
+  .login-links {
+    display: flex;
+    justify-content: space-between;
     font-family: 'Manrope', sans-serif;
     font-size: 10px;
     color: #332742;
 
-    a {
-      font-weight: 600;
-      color: #332742;
-      margin-left: 4px;
-      cursor: pointer;
-      text-decoration: none;
+    .forgot-link,
+    .create-link {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 4px;
+      }
+
+      a {
+        font-weight: 600;
+        color: #332742;
+        cursor: pointer;
+        text-decoration: none;
+      }
     }
   }
 }

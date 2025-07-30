@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <title>Ionic App</title>
-
-  <!-- Base URL for Angular routing -->
   <base href="/" />
 
-  <!-- Meta configuration for responsive and mobile behavior -->
+  <!-- Responsive meta -->
   <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
+  <!-- Manrope font -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!--Includes A Manrope import-->
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Invisible reCAPTCHA v2 -->
+  <script>
+    function onRecaptchaLoad() {
+      console.log('reCAPTCHA ready');
+    }
+  </script>
+  <script
+    src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit"
+    async defer
+  ></script>
 
-
-<!--Font Manrope-->
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
-
-
-  <!-- App Icon -->
   <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
 
-  <!-- ✅ Leaflet CSS (Required for map styling) -->
+  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -34,24 +35,22 @@
     crossorigin=""
   />
 
-  <!-- ✅ Ionicons CDN (Required for icon rendering) -->
+  <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.2.1/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.2.1/dist/ionicons/ionicons.js"></script>
 
-  <!-- iOS-specific PWA settings -->
+  <!-- iOS PWA -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 </head>
-
 <body>
   <app-root></app-root>
 
-  <!-- ✅ Leaflet JS (Required for map functionality) -->
+  <!-- Leaflet JS -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
 </body>
-
 </html>

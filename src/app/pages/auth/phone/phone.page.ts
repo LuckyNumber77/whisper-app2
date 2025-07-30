@@ -5,62 +5,53 @@ import { IonicModule }       from '@ionic/angular';
 import { CommonModule }      from '@angular/common';
 import { FormsModule }       from '@angular/forms';
 
-// Import RecaptchaVerifier and Auth from firebase/auth
-import { RecaptchaVerifier, Auth, signInWithPhoneNumber } from 'firebase/auth';
-// Import the Firebase Auth instance
-import { auth } from '../../../firebase';
-
+import { auth }              from '../../../firebase';
+import { RecaptchaVerifier } from 'firebase/auth';
+import { AuthService }       from '../../../services/auth.service';
 
 @Component({
   selector: 'app-phone',
-  templateUrl: './phone.page.html',
-  styleUrls: ['./phone.page.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule
-  ]
+  templateUrl: './phone.page.html',
+  styleUrls:   ['./phone.page.scss'],
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class PhonePage implements OnInit {
   phone = '';
   private recaptcha!: RecaptchaVerifier;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    // Always set up an invisible reCAPTCHA v2 widget
     this.recaptcha = new RecaptchaVerifier(
-      auth,                     // Auth instance
-      'recaptcha-container',    // container ID
-      { size: 'invisible' }     // options
+      auth,                   // Auth instance
+      'recaptcha-container',  // container ID in your template
+      { size: 'invisible', badge: 'bottomright' }
     );
-    this.recaptcha.render();
+    this.recaptcha.render();  // no-op in emulator
   }
-
 
   async sendCode() {
     try {
-      // Send the verification SMS
-      const confirmation = await signInWithPhoneNumber(
-        auth,
+      // Delegate to AuthService, which handles mock vs real flows
+      await this.authService.sendPhoneVerification(
         this.phone,
         this.recaptcha
       );
 
-      // Store the confirmation result in sessionStorage for the verify page
-      sessionStorage.setItem(
-        'confirmationResult',
-        JSON.stringify({
-          verificationId: confirmation.verificationId
-        })
-      );
-
-      // Navigate to the verify page
-      await this.router.navigate(['/verify']);
-    } catch (err) {
+      // Navigate to verification page
+      await this.router.navigate(['/verify'], { replaceUrl: true });
+    } catch (err: any) {
       console.error('SMS verification failed:', err);
+      // TODO: show a user-facing toast here
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/create'], { replaceUrl: true });
   }
 }

@@ -9,14 +9,13 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { auth }                   from '../firebase';
 import { environment }            from '../../environments/environment';
 import {
+  connectAuthEmulator,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut as fbSignOut,
   sendPasswordResetEmail,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  PhoneAuthProvider,
-  linkWithCredential,
   ConfirmationResult,
   updateProfile as fbUpdateProfile,
   UserCredential,
@@ -41,13 +40,17 @@ export class AuthService implements OnDestroy {
   public lastPhoneNumber = '';
 
   constructor() {
-    // Connect to the Auth emulator if enabled
     if (environment.useEmulators) {
-      import('firebase/auth').then(({ connectAuthEmulator }) => {
-        connectAuthEmulator(this.authInstance, 'http://127.0.0.1:9099', {
-          disableWarnings: true
-        });
-      });
+      try {
+        // Connect to the Auth emulator synchronously
+        connectAuthEmulator(
+          this.authInstance,
+          'http://127.0.0.1:9099',
+          { disableWarnings: true }
+        );
+      } catch (e: any) {
+        console.warn('Could not connect to Auth emulator:', e.message);
+      }
     }
   }
 
@@ -113,50 +116,35 @@ export class AuthService implements OnDestroy {
    * @param phone    E.164 phone number
    * @param verifier RecaptchaVerifier from the page
    */
-  async sendPhoneVerification(
-    phone:    string,
-    verifier: RecaptchaVerifier
-  ): Promise<void> {
-    this.confirmationResult = null;
-    this.lastPhoneNumber    = phone;
+    async sendPhoneVerification(
+      phone:    string,
+      verifier: RecaptchaVerifier
+    ): Promise<void> {
+      this.confirmationResult = null;
+      this.lastPhoneNumber    = phone;
 
-    try {
-      if (environment.useEmulators) {
-        // Emulator: use mock instead of real reCAPTCHA
-        // @ts-ignore
-        this.confirmationResult = await signInWithPhoneNumber(
-          this.authInstance,
-          phone,
-          { mock: true } as any
-        );
-      } else {
-        // Production: use the injected RecaptchaVerifier
+      try {
+        // Always use the real reCAPTCHA verifier—emulator ignores it
         this.confirmationResult = await signInWithPhoneNumber(
           this.authInstance,
           phone,
           verifier
         );
+      } catch (err: any) {
+        throw this.transformAuthError(err);
       }
-    } catch (err: any) {
-      throw this.transformAuthError(err);
     }
-  }
 
   /**
-   * Complete the SMS verification by linking credential.
-   * @param verificationId  Stored ID from sessionStorage
-   * @param code            The SMS code entered by user
+   * Complete the SMS verification by confirming the code.
+   * @param code The SMS code entered by user
    */
-  async verifyPhoneCode(
-    verificationId: string,
-    code:           string
-  ): Promise<void> {
-    const user = this.authInstance.currentUser;
-    if (!user) throw new Error('Not authenticated');
-
+  async verifyPhoneCode(code: string): Promise<void> {
+    if (!this.confirmationResult) {
+      throw new Error('No SMS flow in progress. Please request a new code.');
+    }
     try {
-      const cred = PhoneAuthProvider.credential(verificationId, code);
-      await linkWithCredential(user, cred);
+      await this.confirmationResult.confirm(code);
     } catch (err: any) {
       throw this.transformAuthError(err);
     }
@@ -211,10 +199,10 @@ export class AuthService implements OnDestroy {
   private transformAuthError(err: any): Error {
     const msg = (err?.code || err?.message || '').toString().toLowerCase();
 
-    if (msg.includes('auth/user-not-found'))           return new Error('No account found with this email');
-    if (msg.includes('auth/wrong-password'))           return new Error('Incorrect password');
-    if (msg.includes('auth/email-already-in-use'))     return new Error('Email already in use');
-    if (msg.includes('auth/weak-password'))            return new Error('Password must be at least 6 characters');
+    if (msg.includes('auth/user-not-found'))            return new Error('No account found with this email');
+    if (msg.includes('auth/wrong-password'))            return new Error('Incorrect password');
+    if (msg.includes('auth/email-already-in-use'))      return new Error('Email already in use');
+    if (msg.includes('auth/weak-password'))             return new Error('Password must be at least 6 characters');
     if (msg.includes('auth/invalid-verification-code')) return new Error('Invalid verification code');
 
     return err instanceof Error ? err : new Error('Authentication error');
