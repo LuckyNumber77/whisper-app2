@@ -3,13 +3,9 @@ import { AuthGuard } from './services/auth.guard';
 
 export const routes: Routes = [
   // 1) Default: send to Welcome
-  {
-    path: '',
-    redirectTo: 'welcome',
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
 
-  // 2) Welcome & Onboarding flow
+  // 2) Welcome & Onboarding
   {
     path: 'welcome',
     loadComponent: () =>
@@ -23,7 +19,7 @@ export const routes: Routes = [
       ),
   },
 
-  // 3) Sign–up sequence (Create → Phone → Verify)
+  // 3) Sign–up sequence
   {
     path: 'create',
     loadComponent: () =>
@@ -40,63 +36,31 @@ export const routes: Routes = [
       import('./pages/auth/verify/verify.page').then(m => m.VerifyPage),
   },
 
-  // 4) Log-in (email/password or social)
+  // 4) Log-in
   {
     path: 'login',
     loadComponent: () =>
       import('./pages/auth/login/login.page').then(m => m.LoginPage),
   },
 
-  // 5) Protected Home/Tabs area
+  // 5) Forgot Password — MUST come *before* the wildcard
+  {
+    path: 'forgot',
+    loadComponent: () =>
+      import('./pages/auth/forgot/forgot/forgot.page').then(m => m.ForgotPage),
+  },
+
+  // 6) Protected Home/Tabs area
   {
     path: 'home',
     canActivate: [AuthGuard],
     loadComponent: () =>
       import('./pages/home/tabs/tabs.page').then(m => m.TabsPage),
     children: [
-      {
-        path: 'map',
-        loadComponent: () =>
-          import('./pages/home/tabs/map/map.component').then(
-            m => m.MapComponent
-          ),
-      },
-      {
-        path: 'contacts',
-        loadComponent: () =>
-          import('./pages/home/tabs/contacts/contacts.component').then(
-            m => m.ContactsComponent
-          ),
-      },
-      {
-        path: 'alerts',
-        loadComponent: () =>
-          import('./pages/home/tabs/alerts/alerts.component').then(
-            m => m.AlertsComponent
-          ),
-      },
-      {
-        path: 'sos',
-        loadComponent: () =>
-          import('./pages/home/tabs/sos/sos.component').then(
-            m => m.SosComponent
-          ),
-      },
-      {
-        path: '',
-        redirectTo: 'map',
-        pathMatch: 'full',
-      },
+      /* your tab children here */
     ],
   },
 
-  // 6) Catch-all: redirect to Welcome
-  {
-    path: '**',
-    redirectTo: 'welcome',
-  },
-  {
-    path: 'forgot',
-    loadComponent: () => import('./pages/auth/forgot/forgot/forgot.page').then( m => m.ForgotPage)
-  },
+  // 7) Catch-all: redirect to Welcome
+  { path: '**', redirectTo: 'welcome' },
 ];

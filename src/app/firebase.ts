@@ -1,17 +1,29 @@
+// src/app/firebase.ts
+
 import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getStorage, connectStorageEmulator } from 'firebase/storage';
+import {
+  getAuth,
+  connectAuthEmulator,
+} from 'firebase/auth';
+import {
+  getFirestore,
+  connectFirestoreEmulator,
+} from 'firebase/firestore';
 import { environment } from '../environments/environment';
 
-const app = initializeApp(environment.firebase);
+// 1) Initialize the Firebase App with the renamed key:
+export const firebaseApp = initializeApp(environment.firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app); // ✅ renamed from firestore → db
-export const storage = getStorage(app);
+// 2) Auth instance, pointing to emulator when in dev
+export const auth = getAuth(firebaseApp);
+if (environment.useEmulators) {
+  connectAuthEmulator(auth, 'http://localhost:9099', {
+    disableWarnings: true,
+  });
+}
 
-if (!environment.production) {
-  connectAuthEmulator(auth, 'http://localhost:9099');
-  connectFirestoreEmulator(db, 'localhost', 8080); // ✅ updated to db
-  connectStorageEmulator(storage, 'localhost', 9199);
+// 3) Firestore instance, pointing to emulator when in dev
+export const db = getFirestore(firebaseApp);
+if (environment.useEmulators) {
+  connectFirestoreEmulator(db, '127.0.0.1', 8085);
 }

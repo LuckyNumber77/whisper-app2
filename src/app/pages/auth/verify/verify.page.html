@@ -1,29 +1,22 @@
-<ion-content fullscreen class="verify-content">
-  <div class="create-header">
-    <div class="title">Verify your Phone Number</div>
+<!-- verify.page.html -->
+<ion-content fullscreen>
+  <div class="verify-header">
+    <h1>Verify Your Phone Number</h1>
   </div>
 
-  <div class="create-panel">
-    <form (ngSubmit)="verify()" #form="ngForm" class="create-form">
-      <ion-item>
-        <ion-input
-          class="create-input"
-          type="text"
-          name="code"
-          placeholder="Enter code sent to your phone"
-          required
-          maxlength="6"
-          [(ngModel)]="code">
-        </ion-input>
-      </ion-item>
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="verify-form">
+    <ion-item>
+      <ion-input
+        type="text"
+        name="code"
+        placeholder="Enter verification code"
+        required
+        [(ngModel)]="code">
+      </ion-input>
+    </ion-item>
 
-      <ion-button
-        class="create-actions"
-        expand="block"
-        type="submit"
-        [disabled]="form.invalid">
-        Next
-      </ion-button>
-    </form>
-  </div>
+    <ion-button expand="block" type="submit" [disabled]="form.invalid">
+      Next
+    </ion-button>
+  </form>
 </ion-content>

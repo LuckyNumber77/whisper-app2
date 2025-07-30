@@ -1,35 +1,47 @@
 // src/app/pages/auth/verify/verify.page.ts
-import { Component }    from '@angular/core';
-import { Router }       from '@angular/router';
-import { IonicModule }  from '@ionic/angular';
-import { CommonModule } from '@angular/common';
-import { FormsModule }  from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { IonicModule }        from '@ionic/angular';
+import { CommonModule }       from '@angular/common';
+import { FormsModule }        from '@angular/forms';
+import { Router }             from '@angular/router';
 
-import { AuthService }  from '../../../services/auth.service';
+import { AuthService }        from '../../../services/auth.service';
 
 @Component({
   selector: 'app-verify',
-  templateUrl: './verify.page.html',
-  styleUrls: ['./verify.page.scss'],
   standalone: true,
+  templateUrl: './verify.page.html',     // ← make sure this line is present
+  styleUrls:   ['./verify.page.scss'],   // ← and this one too
   imports: [
     IonicModule,
     CommonModule,
     FormsModule
   ]
 })
-export class VerifyPage {
+export class VerifyPage implements OnInit {
   code = '';
+  private verificationId = '';
 
   constructor(
     private auth: AuthService,
     private router: Router
   ) {}
 
-  async verify() {
-    // link the SMS credential to the user
-    await this.auth.verifyPhoneCode(this.code);
-    // once verified, go to the app
-    await this.router.navigate(['/home']);
+  ngOnInit() {
+    const data = sessionStorage.getItem('confirmationResult');
+    if (!data) {
+      this.router.navigate(['/phone']);
+      return;
+    }
+    this.verificationId = JSON.parse(data).verificationId;
+  }
+
+  async onSubmit() {
+    try {
+      await this.auth.verifyPhoneCode(this.verificationId, this.code);
+      await this.router.navigate(['/home']);
+    } catch (err: any) {
+      console.error('Verification failed:', err);
+    }
   }
 }
