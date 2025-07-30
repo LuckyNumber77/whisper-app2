@@ -1,66 +1,88 @@
+/* ========================================================================== */
+/*  Whisper header – compact (+1.5 boost)                                     */
+/* ========================================================================== */
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  /* keep tight padding */
+  padding: calc(env(safe-area-inset-top, 0px) + 6px) 6px 2px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px; /* Figma padding */
   background: var(--ion-background-color, #fff);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  width: 100%;
 
   &__greeting {
     display: flex;
     flex-direction: column;
-    row-gap: 10px; /* item spacing */
-    flex: 1;        /* auto width */
+    row-gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
     overflow: hidden;
   }
 
   &__menu-btn {
     background: none;
     border: none;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
+    padding: 0;
+
+    &:active { opacity: .6; }
   }
 }
 
-.greeting__title {
-  font-family: 'Manrope', sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 31.2px;
-  color: var(--primary-text, #332742);
+/* ========================================================================== */
+/*  Text lines                                                                */
+/* ========================================================================== */
+h1.greeting-title {
   margin: 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;          /* 12 × 1.5 */
+  line-height: 24px;        /* ~1.3–1.4 ratio */
+  font-weight: 600;
+  color: var(--primary-text, #332742);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.greeting__location {
+p.greeting-location {
+  margin: 0;
   display: flex;
   align-items: center;
-  column-gap: 7px;
+  column-gap: 3px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;          /* 8 × 1.5 */
+  line-height: 16px;
+  font-weight: 400;
+  color: var(--secondary-text, #887C97);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
+  ion-icon,
   .location-icon {
-    width: 12px;
-    height: 12px;
-    fill: var(--primary-text, #332742);
+    width: 9px;             /* 6 × 1.5 */
+    height: 9px;
     flex-shrink: 0;
-  }
-
-  .location-text {
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--secondary-text, #887C97);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 
+/* ========================================================================== */
+/*  Burger icon                                                               */
+/* ========================================================================== */
 .menu-icon {
-  width: 24px;
-  height: 24px;
+  width: 14px;               /* unchanged */
+  height: 14px;
   fill: var(--primary-text, #332742);
+  pointer-events: none;
 }
