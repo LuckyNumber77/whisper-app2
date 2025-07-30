@@ -1,9 +1,7 @@
 {
   "emulators": {
     "auth": {
-      "host": "127.0.0.1",
-      "port": 9099,
-      "exportOnExit": "./emulator-data/auth"
+      "port": 9099
     },
     "firestore": {
       "port": 8085
@@ -14,13 +12,18 @@
     "ui": {
       "enabled": true,
       "port": 4000
-    }
+    },
+    "import": "./emulator-data",
+    "exportOnExit": true,
+    "singleProjectMode": true
   },
   "firestore": {
-    "rules": "firestore.rules"
+    "database": "(default)",
+    "location": "us-central1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
   "storage": {
     "rules": "storage.rules"
-  },
-  "project": "whisperapp-990c3"
+  }
 }

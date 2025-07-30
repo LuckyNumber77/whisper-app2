@@ -1,8 +1,17 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Users can only read/write their own document under /users/{uid}
+    match /users/{userId} {
+      allow create, read, update, delete: if
+        request.auth != null
+        && request.auth.uid == userId;
+    }
+
+    // Block everything else
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if false;
     }
   }
 }
+

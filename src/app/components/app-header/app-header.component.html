@@ -1,0 +1,18 @@
+<header class="app-header">
+  <div class="app-header__greeting">
+    <h1 class="greeting__title">Hello {{ firstName }},</h1>
+    <div class="greeting__location">
+      <svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <!-- paste your 12×12 location-on SVG here -->
+      </svg>
+      <span class="location-text">{{ address }}</span>
+    </div>
+  </div>
+  <button class="app-header__menu-btn"
+          (click)="onMenu()"
+          aria-label="Open menu">
+    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <!-- paste your 24×24 menu/segment SVG here -->
+    </svg>
+  </button>
+</header>

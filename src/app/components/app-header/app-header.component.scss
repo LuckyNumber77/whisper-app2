@@ -1,0 +1,66 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px; /* Figma padding */
+  background: var(--ion-background-color, #fff);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+
+  &__greeting {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px; /* item spacing */
+    flex: 1;        /* auto width */
+    overflow: hidden;
+  }
+
+  &__menu-btn {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+.greeting__title {
+  font-family: 'Manrope', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 31.2px;
+  color: var(--primary-text, #332742);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.greeting__location {
+  display: flex;
+  align-items: center;
+  column-gap: 7px;
+
+  .location-icon {
+    width: 12px;
+    height: 12px;
+    fill: var(--primary-text, #332742);
+    flex-shrink: 0;
+  }
+
+  .location-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--secondary-text, #887C97);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--primary-text, #332742);
+}
