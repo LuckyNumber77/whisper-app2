@@ -1,6 +1,3 @@
-
-
-
 /* ───────────────────────────── 1. Host & Content Setup ────────────────── */
 :host,
 ion-content,
@@ -11,38 +8,18 @@ ion-content,
   flex-direction: column;
 }
 
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-ion-content.page-layout {
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --padding-start: 0;
-  --padding-end: 0;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  --background: var(--ion-background-color);
-}
-
-/* ───────────────────────────── 2. Filter Bar Section ──────────────────── */
 /* ───────────────────────────── 2. Filter Bar Section ──────────────────── */
 .filter-bar {
-  flex: 0 0 13vh;        /* Slightly tighter, adjustable (try 12-15vh for your taste) */
+  flex: 0 0 13vh;                     /* Slightly tighter, adjustable */
   max-height: 13vh;
-  min-height: 92px;      /* Ensures all controls fit even on very small screens */
+  min-height: 92px;                   /* Ensures all controls fit on small screens */
   padding: 2px 2px 3px 2px;
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #ddd;
-  border-radius: 1rem;
+  background-color: var(--ion-background-color);
+  border-bottom: 1px solid var(--ion-color-primary-tint);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
-  gap: 2px 6px;          /* Vertical, horizontal gap between controls */
+  gap: 2px 6px;                       /* Vertical, horizontal gap between controls */
   align-items: center;
   overflow: hidden;
 }
@@ -55,16 +32,13 @@ ion-content.page-layout {
 .filter-bar ion-button.use-location {
   grid-column: 1 / span 2;
   grid-row: 2;
-  border-radius: 0.7rem;
   height: 33px;
-  font-size: 1rem;
-  font-family: var(--font-semibold, "Manrope Semibold", sans-serif);
-  margin: 1px 0 1px 0;
-  background: var(--ion-color-primary, #0057ff);
-  color: #fff;
-  letter-spacing: 0.03em;
+  font-size: var(--body-normal);           /* 16px from global */
+  font-family: var(--font-secondary);      /* Manrope */
+  margin: 1px 0;
+  border-radius: var(--ion-border-radius);
+  box-shadow: var(--ion-shadow-sm);
   padding: 0 !important;
-  box-shadow: 0 1px 3px rgba(76,58,99,0.05);
   line-height: 1.15;
 }
 
@@ -74,19 +48,17 @@ ion-content.page-layout {
 
 /* All filter items: Tight, touchable, no overflow */
 .filter-bar ion-item {
-  background: #fff;
+  background: var(--ion-background-color);
   border-radius: 0.7rem;
   padding: 0 0.6rem;
   margin: 0;
   min-height: 28px;
   height: 28px;
-  font-size: 0.97rem;
+  font-size: var(--body-small);             /* 14px from global */
   display: flex;
   align-items: center;
   box-shadow: 0 1px 2px rgba(76,58,99,0.03);
 }
-
-/* If you want even less space, reduce min-height to 24px and .filter-bar to 12vh */
 
 /* Responsive: Slightly smaller on very small screens */
 @media (max-width: 400px) {
@@ -103,7 +75,6 @@ ion-content.page-layout {
     font-size: 0.91rem;
   }
 }
-
 
 /* ───────────────────────────── 3. Map Section ─────────────────────────── */
 .map-wrapper {
@@ -126,17 +97,17 @@ ion-content.page-layout {
   border: none;
 }
 
-/* ── Legend overlay (Leaflet, within map section) ── */
+/* Legend overlay (Leaflet, within map section) */
 .leaflet-control.legend {
   position: absolute;
   bottom: 4px;
   left: 4px;
-  background: white;
+  background: var(--ion-background-color);
   padding: 4px;
   border-radius: var(--ion-border-radius);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   z-index: 999;
-  font-size: 11px;
+  font-size: var(--body-small);
 }
 
 /* ───────────────────────────── 4. Incident List Section ──────────────── */
@@ -146,12 +117,11 @@ ion-content.page-layout {
   min-height: 105px;
   overflow-y: auto;
   padding: 0;
-  background-color: var(--ion-color-secondary-subtle, #F9DFDF); /* light pink */
+  background-color: var(--ion-color-secondary-subtle);
   scroll-snap-type: y mandatory;
   border: none;
 }
 
-/* ── Incident card (branded, no border, soft drop shadow) ── */
 .incident-card {
   background: transparent;
   border: none;
@@ -167,17 +137,19 @@ ion-content.page-layout {
 
 .incident-card:focus-within,
 .incident-card:focus-visible {
-  box-shadow: 0 0 0 2px var(--ion-color-primary-tint, #65527E), 0 2px 14px rgba(76,58,99,0.14);
+  box-shadow:
+    0 0 0 2px var(--ion-color-primary-tint),
+    0 2px 14px rgba(76,58,99,0.14);
 }
 
 .threat-header {
   font-weight: 700;
-  font-size: 15px;
+  font-size: var(--body-medium);
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--ion-color-primary, #4C3A63);
-  font-family: var(--font-primary, 'Satoshi', sans-serif);
+  color: var(--ion-color-primary);
+  font-family: var(--font-primary);
   letter-spacing: 0.01em;
 }
 
@@ -188,17 +160,17 @@ ion-content.page-layout {
 }
 
 .incident-details {
-  font-size: 13px;
-  color: var(--ion-text-color, #2A2A2A);
+  font-size: var(--body-small);
+  color: var(--ion-text-color);
   margin-top: 3px;
   line-height: 1.42;
-  font-family: var(--font-secondary, 'Manrope', sans-serif);
+  font-family: var(--font-secondary);
 }
 
 .incident-info {
-  background: var(--ion-color-secondary-subtle, #F9DFDF);  /* light pink */
-  border-radius: var(--ion-border-radius, 12px);
-  padding: 12px 16px 10px 16px;
+  background: var(--ion-color-secondary-subtle);
+  border-radius: var(--ion-border-radius);
+  padding: 12px 16px 10px;
   width: 100%;
   min-height: 85px;
   display: flex;
@@ -206,28 +178,29 @@ ion-content.page-layout {
   justify-content: center;
 }
 
-/* ── Loading & no-data states (within list section) ── */
+/* ───────────────────────────── Loading & No‐Data States ─────────────── */
 .loading,
 .no-data {
   text-align: center;
   margin-top: 5px;
   color: #888;
-  font-size: 11px;
+  font-size: var(--body-small);
 }
 
+/* Icon color */
 .filter-icon {
   font-size: 20px;
-  color: var(--ion-color-primary, #4C3A63);
+  color: var(--ion-color-primary);
   margin-right: 8px;
   flex-shrink: 0;
 }
 
-/* ───────────────────────────── Card Sheet Overlay (Contacts/Alerts) ────── */
+/* ─────────────────────────── Card Sheet Overlay ───────────────────────── */
 .card-sheet-overlay {
   position: fixed;
   left: 0; right: 0; bottom: 0;
-  z-index: 1100;  /* ensure above map, legend, and tab bar */
-  background: rgba(0,0,0,0.08);  /* Optional: subtle dim background */
+  z-index: 1100;
+  background: rgba(0,0,0,0.08);
   display: flex;
   justify-content: center;
   pointer-events: all;
@@ -236,62 +209,72 @@ ion-content.page-layout {
 .card-sheet {
   width: 100%;
   max-width: 480px;
-  background: #FEFDFE;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-  box-shadow: 0 -4px 18px 0 rgba(76,58,99,0.16);
-  padding: 26px 20px 32px 20px;
+  background: var(--ion-background-color);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: 0 -4px 18px rgba(76,58,99,0.16);
+  padding: 26px 20px 32px;
   margin-bottom: env(safe-area-inset-bottom, 0);
   position: relative;
   animation: slideUpSheet 0.33s cubic-bezier(0.36,1.5,0.5,1) 1;
-
-  .sheet-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    h2 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: #332742;
-      margin: 0;
-    }
-
-    .drag-handle {
-      width: 40px;
-      height: 5px;
-      background-color: #ccc;
-      border-radius: 2.5px;
-      margin-right: 16px;
-      cursor: grab;
-      display: inline-block;
-      opacity: 0.55;
-    }
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 2.3rem;
-      color: #887C97;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0 6px;
-    }
-  }
-
-  /* Optional: If you want the overlay to scroll on small screens: */
-  max-height: 75vh;
-  overflow-y: auto;
 }
 
-/* Nice slide-up animation for overlay */
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheet-header .drag-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #ccc;
+  border-radius: 2.5px;
+  margin-right: 16px;
+  cursor: grab;
+  opacity: 0.55;
+}
+
+.sheet-header h2 {
+  font-family: var(--font-secondary);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ion-color-primary-dark);
+  margin: 0;
+}
+
+.sheet-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 2.3rem;
+  color: var(--ion-color-secondary-light);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 6px;
+}
+
 @keyframes slideUpSheet {
-  from {
-    transform: translateY(75%);
-    opacity: 0.1;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(75%); opacity: 0.1; }
+  to   { transform: translateY(0);  opacity: 1;   }
+}
+
+/* ─────────────────────────── Theme Overrides ──────────────────────────── */
+
+/* 1) Give each select‐container a subtle secondary border + background */
+.filter-bar ion-item {
+  --background: var(--ion-color-secondary-subtle);
+  border: 1px solid var(--ion-color-secondary-tint);
+}
+
+/* 2) Style “Use My Location” as a solid primary button */
+.filter-bar ion-button.use-location {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  --border-radius: var(--ion-border-radius);
+  box-shadow: var(--ion-shadow-sm);
+}
+
+/* 3) Ensure the icons stay in your primary color */
+.filter-bar .filter-icon {
+  color: var(--ion-color-primary);
 }

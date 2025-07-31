@@ -1,18 +1,14 @@
-<header class="app-header">
-  <div class="app-header__greeting">
-    <h1 class="greeting__title">Hello {{ firstName }},</h1>
-    <div class="greeting__location">
-      <svg class="location-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <!-- paste your 12×12 location-on SVG here -->
-      </svg>
-      <span class="location-text">{{ address }}</span>
-    </div>
-  </div>
-  <button class="app-header__menu-btn"
-          (click)="onMenu()"
-          aria-label="Open menu">
-    <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <!-- paste your 24×24 menu/segment SVG here -->
-    </svg>
-  </button>
-</header>
+<ion-toolbar class="app-header" color="light">
+  <!-- Greeting block -->
+  <ion-title>
+    <h1 class="greeting-title">Hello, {{ firstName || '' }}</h1>
+    <p class="greeting-location" *ngIf="address && address !== 'Loading location…'">
+      <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+      {{ address }}
+    </p>
+  </ion-title>
+
+  <ion-buttons slot="end">
+    <ion-menu-button menu="main-menu" autoHide="false"></ion-menu-button>
+  </ion-buttons>
+</ion-toolbar>

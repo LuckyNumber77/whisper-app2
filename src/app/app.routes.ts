@@ -71,6 +71,13 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+  path: 'profile',
+  canActivate: [AuthGuard],
+  loadComponent: () =>
+    import('./pages/account/profile/profile.page').then(m => m.ProfilePage),
+},
+
 
   // 7) Catch-all: redirect to Welcome
   { path: '**', redirectTo: 'welcome' },

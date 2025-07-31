@@ -1,6 +1,6 @@
 // src/app/pages/map-legacy/map-legacy.page.ts
 // =============================================================================
-// MapLegacyPage  – complete implementation (Updated Version)
+// MapLegacyPage – complete implementation (Updated Version)
 // =============================================================================
 
 /* ───────────────────────────── 1. Angular / vendor imports ─────────────── */
@@ -8,6 +8,8 @@ import { Component, OnInit, AfterViewInit, OnDestroy, NgZone } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { AppHeaderComponent } from '../../components/app-header/app-header.component';
+import { MenuController } from '@ionic/angular';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { firstValueFrom, filter, retry, Subscription, TeardownLogic } from 'rxjs';
 import * as L from 'leaflet';
@@ -17,9 +19,8 @@ import { CacheService } from '../../services/cache.service';
 import { SaCsvService } from '../../services/sa-csv.service';
 import { ZipLookupService } from '../../services/zip-lookup.service';
 import { BlockGroupLookupService } from '../../services/block-group-lookup.service';
-import { ProfileService }    from '../../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
 import { SheetStateService } from '../../services/sheet-state.service';
-
 
 /* ───────────────────────────── 3. Interfaces & types ───────────────────── */
 interface Incident {
@@ -32,7 +33,6 @@ interface Incident {
   lon: number;
   neighbourhood?: string;
   community_area?: string;
-  // Distance removed from interface; calculated dynamically to fix caching issues
 }
 interface NeighbourhoodOption {
   value: string;
@@ -89,30 +89,23 @@ const customIcon: L.Icon = L.icon({
   standalone: true,
   templateUrl: './map-legacy.page.html',
   styleUrls: ['./map-legacy.page.scss'],
-  imports: [CommonModule, IonicModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, IonicModule, FormsModule, HttpClientModule, AppHeaderComponent],
 })
 export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
-
   /* ───── 5.1  Public reactive state ───────────────────────────────────── */
   map: L.Map | null = null;
   incidents: Incident[] = [];
   filteredIncidents: Incident[] = [];
   loading = true;
-
   selectedFilter = 'all';
   filterOptions = ['all', 'Assault', 'Break and Enter', 'Theft', 'Other'];
-
   selectedYear = new Date().getFullYear();
   availableYears: number[] = [];
-
   selectedCity = 'toronto';
   selectedNeighbourhood = 'all';
   neighbourhoodOptions: NeighbourhoodOption[] = [];
-
-  // --- Add to Section 5.1 Public reactive state (after neighbourhoodOptions, before 5.2) ---
   sheetMode: 'none' | 'contacts' | 'alerts' = 'none';
   private sheetSub?: Subscription;
-
 
   /* ───── 5.2  Static lookup tables ────────────────────────────────────── */
   private cityNeighbourhoods: Record<string, NeighbourhoodOption[]> = {};
@@ -143,17 +136,18 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     private bgSvc: BlockGroupLookupService,
     private profileSvc: ProfileService,
     private zone: NgZone,
-    private sheetState: SheetStateService // <-- Add this!
+    private menu: MenuController,
+    private sheetState: SheetStateService
   ) {
     const cur = new Date().getFullYear();
     for (let y = cur; y >= cur - 10; y--) this.availableYears.push(y);
 
-    // --- Subscribe to sheet state ---
     this.sheetSub = this.sheetState.sheetMode$.subscribe(mode => {
       this.sheetMode = mode;
     });
-  }
 
+    this.initializeMenu();
+  }
 
   /* ───────────────────────────── 6. Lifecycle hooks ───────────────────── */
   async ngOnInit(): Promise<void> {
@@ -163,14 +157,12 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     this.updateNeighbourhoodOptions();
     await this.updateLocationAndMap();
 
-    // Add resize listener for map reliability with Subscription for cleanup
     const resizeSub = new Subscription();
     const handleResize = () => setTimeout(() => this.map?.invalidateSize(), 100);
     window.addEventListener('resize', handleResize);
     resizeSub.add(() => window.removeEventListener('resize', handleResize));
     this.subscriptions.push(resizeSub);
 
-    // Add MutationObserver for #map height changes (from section 10, integrated here for lifecycle)
     const mapElement = document.getElementById('map');
     if (mapElement) {
       const observer = new MutationObserver(() => this.map?.invalidateSize());
@@ -179,7 +171,12 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
       this.subscriptions.push(observerSub);
       console.log('[Lifecycle] MutationObserver attached to #map');
     }
+
+    this.menu.isOpen('main-menu').then(isOpen => {
+      console.log('Menu initially:', isOpen ? 'OPEN' : 'CLOSED');
+    });
   }
+
   private async updateLocationAndMap() {
     this.loading = true;
     await this.fetchIncidents();
@@ -187,7 +184,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
-    this.sheetSub?.unsubscribe(); // <--- Add this line
+    this.sheetSub?.unsubscribe();
     if (this.map) {
       this.map.off();
       this.map.remove();
@@ -195,18 +192,13 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     console.log('[Lifecycle] Cleaned up subscriptions and map');
   }
 
-  /** Flex layout must settle before Leaflet size calc */
   ngAfterViewInit(): void {
     setTimeout(() => {
       const [lat, lon] = this.cityCenters[this.selectedCity];
       this.initializeMap(lat, lon);
-      setTimeout(() => this.map?.invalidateSize(), 100);  // Added for tile load settling
+      setTimeout(() => this.map?.invalidateSize(), 100);
       console.log('[Lifecycle] ngAfterViewInit completed map init');
-    }, 300);  // Bumped to 300ms for better flex settle
-  }
-
-  closeSheet() {
-    this.sheetState.hide();
+    }, 300);
   }
 
   /* ───────────────────────────── 7. UI-event handlers ─────────────────── */
@@ -216,7 +208,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     this.updateNeighbourhoodOptions();
     const [lat, lon] = this.cityCenters[city];
     this.map?.setView([lat, lon], city === 'texas' ? 6 : 11);
-    this.map?.invalidateSize();  // Added to ensure re-render
+    this.map?.invalidateSize();
     this.updateLocationAndMap();
   }
 
@@ -227,7 +219,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     );
     if (match && this.map) {
       this.map.setView([match.lat, match.lon], 13);
-      this.map.invalidateSize();  // Added to ensure re-render
+      this.map.invalidateSize();
     }
     this.updateLocationAndMap();
   }
@@ -242,6 +234,62 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     this.applyFilter();
   }
 
+  async onMenuToggle() {
+    console.log('Menu toggle initiated');
+    
+    try {
+      // 1. First ensure the menu system is properly enabled
+      await this.menu.enable(true, 'main-menu');
+      console.log('Menu enabled confirmed');
+
+      // 2. Verify menu exists in DOM
+      const menuEl = document.querySelector('ion-menu');
+      if (!menuEl) {
+        console.error('Menu element not found in DOM');
+        return;
+      }
+
+      // 3. Debug current state
+      const isOpen = await this.menu.isOpen('main-menu');
+      console.log('Current menu state:', isOpen ? 'OPEN' : 'CLOSED');
+
+      // 4. Force menu visibility (temporary debug)
+      menuEl.style.display = 'block';
+      menuEl.style.zIndex = '10000';
+      console.log('Forced menu visibility for debugging');
+
+      // 5. Perform toggle with multiple fallbacks
+      try {
+        await this.menu.toggle('main-menu');
+      } catch (toggleErr) {
+        console.warn('Standard toggle failed, trying direct open:', toggleErr);
+        await (menuEl as any).open();
+      }
+
+      // 6. Final verification
+      const finalState = await this.menu.isOpen('main-menu');
+      console.log('Final menu state:', finalState ? 'VISIBLE' : 'HIDDEN');
+
+      // 7. Add temporary visual indicator
+      menuEl.style.border = '2px solid red';
+      console.log('Added visual debug border to menu');
+
+    } catch (err) {
+      console.error('Full menu toggle failed:', err);
+      
+      // Ultimate fallback - show alert
+      const alert = document.createElement('div');
+      alert.textContent = 'Menu system failed - check console';
+      alert.style.position = 'fixed';
+      alert.style.background = 'red';
+      alert.style.color = 'white';
+      alert.style.padding = '10px';
+      alert.style.zIndex = '99999';
+      document.body.appendChild(alert);
+      setTimeout(() => alert.remove(), 3000);
+    }
+  }
+
   useDeviceLocation(): void {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -249,7 +297,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
         this.userLat = pos.coords.latitude;
         this.userLon = pos.coords.longitude;
         this.map?.setView([this.userLat, this.userLon], 13);
-        this.map?.invalidateSize();  // Added to ensure re-render
+        this.map?.invalidateSize();
         this.updateLocationAndMap();
       });
     });
@@ -265,7 +313,9 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     const d = new Date(s);
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
   }
+
   private toRad(x: number) { return (x * Math.PI) / 180; }
+
   private dist(aLat: number, aLon: number, bLat: number, bLon: number) {
     const R = 6371;
     const dLat = this.toRad(bLat - aLat);
@@ -277,9 +327,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     return R * 2 * Math.atan2(Math.sqrt(c), Math.sqrt(1 - c));
   }
 
-
-
-  /* ───────────────────────────── 10. Map  DIsplay creation / update ─────────────── */
+  /* ───────────────────────────── 10. Map Display creation / update ────── */
   private initializeMap(lat: number, lon: number): void {
     if (this.map) { this.map.off(); this.map.remove(); }
 
@@ -291,22 +339,20 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
       attribution: '© OpenStreetMap contributors',
     }).addTo(this.map);
 
-    /* make map accessible in DevTools */
     (window as any).__map = this.map;
 
-    /* fix flex-layout sizing issue with observer */
     const mapElement = document.getElementById('map');
     if (mapElement) {
       const observer = new MutationObserver(() => this.map?.invalidateSize());
       observer.observe(mapElement, { attributes: true, childList: true, subtree: true });
       const observerSub = new Subscription(() => observer.disconnect());
-      this.subscriptions.push(observerSub);  // Clean in ngOnDestroy
+      this.subscriptions.push(observerSub);
     }
 
     setTimeout(() => {
       this.map && this.map.invalidateSize();
       console.log('[Map] Invalidated size after init; size:', this.map?.getSize());
-    }, 400);  // Bumped for emulator lag
+    }, 400);
 
     this.updateMap();
   }
@@ -314,15 +360,12 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
   private updateMap(): void {
     if (!this.map) return;
 
-    /* remove old markers (keep tile layer) */
     this.map.eachLayer(l => { if (l instanceof L.Marker) this.map!.removeLayer(l); });
 
-    /* user marker */
     L.marker([this.userLat, this.userLon], { icon: customIcon })
       .addTo(this.map)
       .bindPopup('📍 You are here');
 
-    /* incident markers (distance calculated dynamically) */
     this.filteredIncidents.forEach(inc => {
       const icon = crimeIcons[inc.display_category] ?? crimeIcons['Other'];
       const distance = this.dist(this.userLat, this.userLon, inc.lat, inc.lon);
@@ -333,14 +376,13 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
         );
     });
 
-    // Re-invalidate post-markers
     setTimeout(() => {
       this.map?.invalidateSize();
       console.log('[Map] Invalidated size after update; size:', this.map?.getSize());
     }, 100);
   }
 
-  /* ───────────────────────────── 12. Fetch incidents (top) ─────────────── */
+  /* ───────────────────────────── 12. Fetch incidents ──────────────────── */
   private async fetchIncidents() {
     await firstValueFrom(this.zipSvc.ready$.pipe(filter(Boolean)));
 
@@ -353,7 +395,6 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
 
     try {
       if (this.selectedCity === 'texas') {
-        /* Texas → 4 sub-cities */
         const subs = this.selectedNeighbourhood === 'all'
           ? ['dallas', 'austin', 'fortworth', 'sanantonio']
           : [this.selectedNeighbourhood];
@@ -372,14 +413,12 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     } catch (err) {
       console.error('[Incidents] fetch error', err);
       this.incidents = [];
-      // Add UX feedback (inject ToastController for production)
-      // this.toastCtrl.create({ message: 'Failed to load incidents. Try again.', duration: 3000 }).then(t => t.present());
     }
 
     this.afterFetch();
   }
 
-  /* ───────────────────────────── 13. Per-city dispatch ─────────────────── */
+  /* ───────────────────────────── 13. Per-city dispatch ────────────────── */
   private async fetchIncidentsForCity(city: string, nb: string): Promise<Incident[]> {
     switch (city) {
       case 'toronto':  return this.fetchTorontoIncidents(this.selectedYear, nb);
@@ -389,7 +428,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /* ───────────────────────────── 14. Fetch – Toronto ───────────────────── */
+  /* ───────────────────────────── 14. Fetch – Toronto ──────────────────── */
   private async fetchTorontoIncidents(year: number, nb: string): Promise<Incident[]> {
     let where = `REPORT_YEAR='${year}'`;
     if (nb !== 'all') where += ` AND NEIGHBOURHOOD_140='${nb}'`;
@@ -423,13 +462,13 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /* ───────────────────────────── 15. Fetch – Chicago ───────────────────── */
+  /* ───────────────────────────── 15. Fetch – Chicago ──────────────────── */
   private async fetchChicagoIncidents(year: number, nb: string): Promise<Incident[]> {
     let where = `year=${year}`;
     if (nb !== 'all') where += ` AND community_area=${nb}`;
 
     const url =
-      `https://data.cityofchicago.org/resource/ijzp-q8t2.json?$where=${encodeURIComponent(where)}&$limit=50000`;  // Increased limit for more data
+      `https://data.cityofchicago.org/resource/ijzp-q8t2.json?$where=${encodeURIComponent(where)}&$limit=50000`;
 
     const rows: any[] = await firstValueFrom(this.http.get<any[]>(url).pipe(retry(2)));
 
@@ -447,7 +486,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
       }));
   }
 
-  /* ───────────────────────────── 16. Fetch – Atlanta ───────────────────── */
+  /* ───────────────────────────── 16. Fetch – Atlanta ──────────────────── */
   private async fetchAtlantaIncidents(year: number, nb: string): Promise<Incident[]> {
     let where = `RepYear=${year}`;
     if (nb !== 'all') where += ` AND NhoodName='${nb}'`;
@@ -477,7 +516,7 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
   /* ───────────────────────────── 17. Fetch – San Antonio CSV(Texas) ───── */
   private async fetchSanAntonioIncidents(year: number, nb: string): Promise<Incident[]> {
     await firstValueFrom(this.saCsv.ready$.pipe(filter(Boolean)));
-    const rows = this.saCsv.query(year, nb);  // Removed arbitrary 1000 limit for full data if service supports
+    const rows = this.saCsv.query(year, nb);
 
     return rows.map((r: any) => {
       const lat = parseFloat(r.Latitude);
@@ -563,7 +602,6 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
   private afterFetch() {
     this.applyFilter();
     if (this.filteredIncidents.length && this.map) {
-      // Dynamic zoom based on incident bounds for better UX
       const bounds = L.latLngBounds(this.filteredIncidents.map(i => [i.lat, i.lon]));
       this.map.fitBounds(bounds, { padding: [50, 50] });
     }
@@ -574,10 +612,26 @@ export class MapLegacyPage implements OnInit, AfterViewInit, OnDestroy {
   private applyFilter() {
     this.filteredIncidents = this.incidents
       .filter(i => this.selectedFilter === 'all' || i.display_category === this.selectedFilter);
-      // Year filter removed here since fetch is per-year; keeps it efficient
+  }
+
+  /* ───────────────────────────── Menu-specific additions ──────────────── */
+  private async initializeMenu() {
+    try {
+      await this.menu.enable(true, 'main-menu');
+      const isEnabled = await this.menu.isEnabled('main-menu');
+      console.log(`Menu enabled: ${isEnabled}`);
+      
+      const menus = await this.menu.getMenus();
+      console.log('Registered menus:', menus);
+    } catch (err) {
+      console.error('Menu initialization failed:', err);
+    }
+  }
+
+  closeSheet() {
+    this.sheetState.hide();
   }
 }
-
 
 /* =============================================================================
    End of MapLegacyPage

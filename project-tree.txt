@@ -57,6 +57,12 @@ C:\USERS\DARREN\DESKTOP\SCHOOL\WHISPERAPP2\WHISPER-APP2\SRC
 |   |       home.routes.ts
 |   |       
 |   +---pages
+|   |   +---account
+|   |   |   \---profile
+|   |   |           profile.page.html
+|   |   |           profile.page.scss
+|   |   |           profile.page.ts
+|   |   |           
 |   |   +---auth
 |   |   |   +---create
 |   |   |   |       create.page.html

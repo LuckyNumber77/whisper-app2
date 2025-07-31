@@ -1,6 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService }                               from '../../services/auth.service';
-import { HttpClient }                                from '@angular/common/http';
+// src/app/components/app-header/app-header.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule }      from '@angular/common';
+import { IonicModule }       from '@ionic/angular';
+import { HttpClient }        from '@angular/common/http';
+import { take }              from 'rxjs/operators';
+
+import { ProfileService, Profile } from '../../services/profile.service';
 
 interface NominatimResponse {
   address: {
@@ -15,6 +20,7 @@ interface NominatimResponse {
 @Component({
   selector: 'app-header',
   standalone: true,
+  imports: [CommonModule, IonicModule],
   templateUrl: './app-header.component.html',
   styleUrls: ['./app-header.component.scss'],
 })
@@ -22,46 +28,54 @@ export class AppHeaderComponent implements OnInit {
   firstName = '';
   address   = 'Loading location…';
 
-  @Output() menuToggle = new EventEmitter<void>();
-
   constructor(
-    private authService: AuthService,
-    private http:        HttpClient
+    private profileSvc: ProfileService,
+    private http:       HttpClient
   ) {}
 
-  ngOnInit() {
-    // 1) Pull the user’s first name via getAuthState()
-    this.authService.getAuthState()
-      .then(user => {
-        if (user?.displayName) {
-          this.firstName = user.displayName.split(' ')[0];
-        }
-      })
-      .catch(() => {
-        this.firstName = '';
-      });
+  ngOnInit(): void {
+    this.loadUserData();
+    this.getLocation();
+  }
 
-    // 2) Geolocate + reverse-geocode
+  /** 1) Load firstName from Firestore profile (single-emission) */
+  private loadUserData() {
+    this.profileSvc.getProfile()
+      .pipe(take(1))
+      .subscribe({
+        next: (profile: Profile) => {
+          this.firstName = profile.firstName || '';
+        },
+        error: () => {
+          this.firstName = 'User';
+        }
+      });
+  }
+
+  /** 2) Kick off geolocation → reverse-geocode */
+  private getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         pos => this.reverseGeocode(pos.coords.latitude, pos.coords.longitude),
-        ()   => this.address = 'Location unavailable'
+        ()  => this.address = 'Location unavailable'
       );
     } else {
       this.address = 'Geolocation unsupported';
     }
   }
 
+  /** 3) Call Nominatim to turn coords into userCountry, Province */
   private reverseGeocode(lat: number, lon: number) {
     const url = `https://nominatim.openstreetmap.org/reverse`
       + `?lat=${lat}&lon=${lon}&format=json`;
+
     this.http
       .get<NominatimResponse>(url, { headers: { 'Accept-Language': 'en' } })
       .subscribe({
         next: res => {
-          const addr = res.address;
-          const locality = addr.city ?? addr.town ?? addr.village ?? '';
-          this.address = [locality, addr.state, addr.country]
+          const a = res.address;
+          const locality = a.city ?? a.town ?? a.village ?? '';
+          this.address = [locality, a.state, a.country]
             .filter(Boolean)
             .join(', ');
         },
@@ -69,9 +83,5 @@ export class AppHeaderComponent implements OnInit {
           this.address = 'Unable to fetch address';
         }
       });
-  }
-
-  onMenu() {
-    this.menuToggle.emit();
   }
 }

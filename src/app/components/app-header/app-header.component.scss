@@ -11,8 +11,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--ion-background-color, #fff);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  /* ← light-pink header background */
+  background: #FCF0F0;
+  box-shadow: var(--ion-shadow-sm);
   width: 100%;
 
   &__greeting {
@@ -36,44 +38,97 @@
     flex-shrink: 0;
     padding: 0;
 
-    &:active { opacity: .6; }
+    &:active { opacity: 0.6; }
   }
 }
 
 /* ========================================================================== */
 /*  Text lines                                                                */
 /* ========================================================================== */
+/* Greeting title */
 h1.greeting-title {
   margin: 0;
-  font-family: 'Manrope', sans-serif;
-  font-size: 18px;          /* 12 × 1.5 */
-  line-height: 24px;        /* ~1.3–1.4 ratio */
-  font-weight: 600;
-  color: var(--primary-text, #332742);
+  font-family: var(--font-secondary);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: var(--weight-semibold);
+  color: var(--ion-color-primary-dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* Greeting location */
 p.greeting-location {
   margin: 0;
   display: flex;
   align-items: center;
   column-gap: 3px;
-  font-family: 'Manrope', sans-serif;
-  font-size: 12px;          /* 8 × 1.5 */
+  font-family: var(--font-secondary);
+  font-size: 12px;
   line-height: 16px;
-  font-weight: 400;
-  color: var(--secondary-text, #887C97);
+  font-weight: var(--weight-regular);
+  color: var(--ion-color-primary-light);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   ion-icon,
   .location-icon {
-    width: 9px;             /* 6 × 1.5 */
+    width: 9px;
     height: 9px;
     flex-shrink: 0;
+    color: var(--ion-color-secondary);
+  }
+}
+
+/* ========================================================================== */
+/*  Menu styles                                                               */
+/* ========================================================================== */
+ion-menu {
+  --width: 280px;
+  --background: var(--ion-background-color);
+
+  ion-header {
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      --padding-top: calc(env(safe-area-inset-top) + 6px);
+      --padding-bottom: 6px;
+      font-family: var(--font-secondary);
+      font-weight: var(--weight-semibold);
+      box-shadow: var(--ion-shadow-sm);
+    }
+  }
+
+  ion-content {
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    --background: var(--ion-background-color);
+  }
+
+  ion-list {
+    background: transparent;
+    padding: 0;
+
+    ion-item {
+      --background: var(--ion-background-color);
+      --color: var(--ion-color-primary-dark);
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --min-height: 48px;
+      --detail-icon-color: var(--ion-color-primary-light);
+      --detail-icon-opacity: 1;
+
+      ion-icon {
+        color: var(--ion-color-primary);
+        margin-right: 12px;
+      }
+
+      &:hover {
+        --background: var(--ion-color-light-3);
+      }
+    }
   }
 }
 
@@ -81,8 +136,23 @@ p.greeting-location {
 /*  Burger icon                                                               */
 /* ========================================================================== */
 .menu-icon {
-  width: 14px;               /* unchanged */
+  width: 14px;
   height: 14px;
-  fill: var(--primary-text, #332742);
+  fill: var(--ion-color-primary-dark);
   pointer-events: none;
+}
+
+ion-menu-button {
+  --color: var(--ion-color-primary-dark);
+
+  &[menu-activated] {
+    --color: var(--ion-color-primary);
+  }
+}
+
+/* ========================================================================== */
+/*  SOS fab (if you ever include it here)                                     */
+/* ========================================================================== */
+.sos-fab {
+  --background: #4C3A63;  /* your deep purple */
 }
